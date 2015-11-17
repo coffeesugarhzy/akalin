@@ -1,0 +1,163 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="IE=7" http-equiv="X-UA-Compatible"> 
+
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+ 
+<link href="/dist/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<link href="/dist/jqGrid/css/jquery-ui.custom.css" rel="stylesheet" type="text/css" />
+<link href="/dist/jqGrid/css/style.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<body>
+<div class="subnav">
+    <div class="content-menu ib-a blue line-x">
+        <a onclick="top.dsIframe('添加返利','/manager/rebate/add.do',550,180)"
+            class="add fb"><em>添加返利 </em>
+        </a>  
+    </div>
+</div>
+<div class="pad-lr-10">
+    <form method="get" action="job/j_searchJob.do" name="searchform"> 
+        <table width="100%" cellspacing="0"  style="font-size:12px" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col"> 
+                        搜索： <input type="text"  class="date input-text"
+                            size="30" id="keyword" name="keyword"> 
+                        <span class="content-menu ib-a blue line-x" style="">
+        					<a onclick="search_keyword()" class="add fb"><em>搜索 </em></a>  
+    					</span>
+                    </div>
+                </td> 
+
+            </tr>
+            </tbody>
+        </table> 
+    </form>
+    <table id="list"></table>
+    <div id="no"></div>
+	<div id="pager"></div>
+</div>
+
+<!-- jqgrid js引入　-->
+<script type="text/javascript" src="/dist/jqGrid/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/dist/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="/dist/jqGrid/js/i18n/grid.locale-cn.js"></script>
+
+<!--　日历引入　-->
+<script src="/dist/calendar/calendar.js" type="text/javascript"></script>
+<link href="/dist/calendar/calendar.min.css" type="text/css" rel="stylesheet">
+<script charset="utf-8" src="/dist/js/editor.js"></script>
+ 
+<!-- 数据连接 -->
+    <script type="text/javascript">
+    
+    function search_keyword(){
+    	var name = $.trim($("input[name='keyword']").val());
+    	$("#list").jqGrid('setGridParam',{
+			url : "/manager/rebate/listJson.do",
+			postData : {
+				'keyword' : name
+			},
+			page : 1
+		}).trigger("reloadGrid");
+    }
+  
+$(function(){
+	$("#list")
+        .jqGrid(
+            {
+url : '/manager/rebate/listJson.do',
+datatype : "json",
+colNames : ['', '开始金额', '结束金额', '返利金额', '增加时间', '操作' ],
+colModel : [ 
+{
+	sortable : false,
+	name : 'returnMoneyId',
+	index : 'returnMoneyId',
+	align : 'center' , 
+	hidden : true
+}, 
+{
+sortable : false,
+name : 'beginMoney',
+index : 'beginMoney',
+width : 80,
+align : 'left'
+}, 
+{
+sortable : false,
+name : 'endMoney',
+index : 'endMoney',
+width : 80,
+align : 'left'
+}, 
+{
+	sortable : false,
+	name : 'returnMoney',
+	index : 'returnMoney',
+	width : 80,
+	align : 'left'
+},
+{
+	sortable : false,
+	name : 'addDate',
+	index : 'addDate',
+	width : 80,
+	align : 'center'
+},
+{
+sortable : false,
+name : '',
+index : '',
+width : 80,
+align : 'center' , 
+formatter : optionForm
+} ],
+jsonReader : {
+root : "content",
+       page : "page",
+       total : "total",
+       records : "records",
+       repeatitems : false
+             },
+rowNum : 15,
+       rowList : [ 5, 10, 15, 20, 30, 50 ],
+       pager : 'pager',
+       autowidth : true,
+       height : 'auto',
+       gridview : true,
+       viewrecords : true,
+       loadComplete : function(data) {
+           if (data.records === 0) {
+               $("#update_btn").hide();
+               $("#remove_btn").hide();
+               $("#queryByName").hide();
+           } else {
+               $("#update_btn").show();
+               $("#remove_btn").show();
+               $("#queryByName").show();
+           }
+       }
+});
+}) ; 
+
+function optionForm(cellValue, options, rowObject){ 
+	var id = rowObject['returnMoneyId'] ;    
+	var ediStr = "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"编辑\" , \"/manager/rebate/modify.do?id="+id+"\" ,550,180)'>编辑</a></span>" ;
+	var deleteStr = "<span class='delete'><a style='cursor:pointer' onclick='top.deleteById(\"/manager/rebate/del.do\" , \""+id+"\")'>删除</a></span>" ;
+	return ediStr + "&nbsp;&nbsp;"+deleteStr;
+ 
+} 
+
+
+    </script>
+
+</body>
+</html>
+

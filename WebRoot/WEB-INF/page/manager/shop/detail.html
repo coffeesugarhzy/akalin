@@ -1,0 +1,394 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>添加广告</title>
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form"> 
+			<form id="myform" name="myform" method="post"
+				action="/manager/shop/addOrMod.do" enctype="multipart/form-data"
+				target="submitFrame" style="display:none">
+				<fieldset style="margin:10px">
+					<legend>店铺信息 </legend>
+					<table width="100%" class="table_form">
+						<tbody>
+							<tr>
+								<td width="100">店铺LOGO</td>
+								<td><#if shop?? && shop.logo??><img id=headImgView
+									src='${shop.logo}' width="120px" height="120px"
+									onclick="$('input#file').click()" /><#else><img id=headImgView
+									src='/dist/img/viewimage.jpg' width="120px" height="120px"
+									onclick="$('input#file').click()" /> </#if>
+									<div style="display:block">
+										<input type="file" id=file name=file capture="camera"
+											onchange="change('headImgView','file')" accept="image/*"
+											style="width:0px;height: 0px;" />
+									</div></td>
+							</tr>
+							<tr>
+								<td>店铺名称</td>
+								<td><input type="text" style="width: 300px;"
+									class="input-text" id=shopName name=shopName maxlength="32"
+									value="${(shop.shopName)!''}"> <input type="hidden"
+									id=shopId name=shopId value="${(shop.shopId)!''}">
+									<div id="usernameTip" class="onShow">请输入店铺名称!</div></td>
+							</tr>
+							<tr>
+								<td>店铺类型</td>
+								<td><select id="typeName" name="typeName">
+										<#if dataTypes??><#list dataTypes as dts>
+										<option value="${dts.typeName}">${dts.typeName}</option>
+										</#list></#if>
+								</select></td>
+							</tr>
+							<tr>
+								<td>基础配置</td>
+								<td><input type="checkbox" id=had name=had value="WIFI" />&nbsp;WIFI&nbsp;&nbsp;&nbsp;<input
+									type="checkbox" value="停车场" id=had name=had />&nbsp;停车场</td>
+							</tr>
+							<tr>
+								<td>是否可预订</td>
+								<td><input type="radio" value="0" id=isBook name=isBook
+									checked="true" />&nbsp;可预订&nbsp;<input type="radio" id=isBook
+									name=isBook value="1" />不可预订</td>
+							</tr>
+							<tr>
+								<td>联系人</td>
+								<td><input type="text" style="width: 150px;"
+									class="input-text" id=linkMan name=linkMan maxlength="12"
+									value="${(shop.linkMan)!''}">
+									<div id="usernameTip" class="onShow">请输入联系人!</div></td>
+							</tr>
+							<tr>
+								<td>联系电话</td>
+								<td><input type="text" style="width: 150px;"
+									class="input-text" id=telphone name=telphone maxlength="12"
+									value="${(shop.telphone)!''}">
+									<div id="usernameTip" class="onShow">请输入联系电话,电话号码格式如：13000000000或0772000000!</div></td>
+							</tr>
+							<tr>
+								<td>营业时间</td>
+								<td><input type="text" style="width: 200px;"
+									class="input-text" id=openTime name=openTime maxlength="18"
+									value="${(shop.openTime)!''}">
+									<div id="usernameTip" class="onShow">请输入营业时间!</div></td>
+							</tr>
+							<#if shop?? && shop.cost?? && shop.cost??>
+							<tr>
+								<td>人均消费</td>
+								<td><input type="text" style="width: 180px;"
+									class="input-text" id=cost name=cost maxlength="6"
+									value="${shop.cost?string('#####################.##')}">
+									<div id="usernameTip" class="onShow">必须输入数字!</td>
+							</tr>
+							<#else>
+							<tr>
+								<td>人均消费</td>
+								<td><input type="text" style="width: 180px;"
+									class="input-text" id=cost name=cost maxlength="6" value="0.00">
+									<div id="usernameTip" class="onShow">必须输入数字!</div></td>
+							</tr>
+							</#if>
+							<tr>
+								<td>餐台设置</td>
+								<td><table id="tab" style="background:#EEF3F7">
+										<tr>
+											<td width="100px">餐桌类型</td>
+											<td width="100px">容纳人数</td>
+											<td width="100px">餐桌数量</td>
+											<td width="50px"><a onclick="addtr()" href="#"><b>增加</b></a></td>
+										</tr>
+										<#if shop?? && shop.tableInfos??><#list shop.tableInfos as
+										tis>
+										<tr>
+											<td><input type='text' class='input-text'
+												name='tableName' id='tableName' maxlength='5'
+												style='width:80px' value="${(tis.tableName)!''}" /></td>
+											<td><input type='text' class='input-text'
+												name='tableVolume' id='tableVolume' maxlength='4'
+												style='width:80px' value="${(tis.tableVolume)!'0'}" /></td>
+											<td><input type='text' class='input-text'
+												name='tableNum' id='tableNum' maxlength='4'
+												style='width:80px' value="${(tis.tableNum)!'0'}" /></td>
+											<td><a href='#' onclick='javascript:delRow(this)'>删除</a>
+											</td>
+										</tr>
+										</#list></#if>
+									</table></td>
+							</tr>
+							<tr>
+								<td width="80">店铺地址</td>
+								<td><input type="text" style="width: 300px;"
+									class="input-text" id=address name=address maxlength="127"
+									value="${(shop.address)!''}">
+									<div id="usernameTip" class="onShow">请输入店铺地址!</div></td>
+							</tr>
+							<tr>
+								<td valign="top">店铺介绍</td>
+								<td><textarea id="remark" name="remark" style="width:40%">${(shop.remark)!''}</textarea></td>
+							</tr>
+							<#if shop?? && shop.longitude?? && shop.latitude??>
+							<tr>
+								<td>地图</td>
+								<td>定位地址:<input type="text" style="width: 200px;"
+									class="input-text" id="text_" maxlength="127">&nbsp;&nbsp;经度:<input
+									type="text" class="input-text" id=longitude name=longitude
+									readOnly="true" style="width: 100px;"
+									value="${shop.longitude?string('###############.##########')}">纬度:<input
+									type="text" class="input-text" id=latitude name=latitude
+									readOnly="true" style="width: 100px;"
+									value="${shop.latitude?string('###############.##########')}"><a
+									onclick="searchByStationName()" class="ds_dialog_yess"><span>定位</span></a>
+								</td>
+							</tr>
+							<#else>
+							<tr>
+								<td>地图</td>
+								<td>定位地址:<input type="text" style="width: 200px;"
+									class="input-text" id="text_" maxlength="127">&nbsp;&nbsp;经度:<input
+									type="text" class="input-text" id=longitude name=longitude
+									readOnly="true" style="width: 100px;" value="0.00">纬度:<input
+									type="text" class="input-text" id=latitude name=latitude
+									readOnly="true" style="width: 100px;" value="0.00"><a
+									onclick="searchByStationName()" class="ds_dialog_yess"><span>定位</span></a>
+								</td>
+							</tr>
+							</#if>
+							<tr>
+								<td>&nbsp;</td>
+								<td><div id="container"
+										style="width: 40%;height: 400px;border: 1px solid gray;overflow:hidden;">
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<div class="ds_dialog_buttons" style="text-align:left;">
+					<a onclick="validate()" class="ds_dialog_yess"><span>提交店铺</span></a>
+				</div>
+			</form>
+			<#if shop??>
+			<fieldset id="shopDetail" style="margin:10px">
+				<legend>店铺信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">店铺LOGO</td>
+							<td><img id=headImgView src='${(shop.logo)!""}'
+								width="120px" height="120px" /></td>
+						</tr>
+						<tr>
+							<td>店铺名称</td>
+							<td>${(shop.shopName)!''}</td>
+						</tr>
+						<tr>
+							<td>店铺类型</td>
+							<td>${(shop.typeName)!''}</td>
+						</tr>
+						<tr>
+							<td>基础配置</td>
+							<td>${(shop.had)!''}</td>
+						</tr>
+						<tr>
+							<td>是否可预订</td>
+							<td><#if 0 == shop.isBook>可预订<#else>不可预订</#if></td>
+						</tr>
+						<tr>
+							<td>联系人</td>
+							<td>${(shop.linkMan)!''}</td>
+						</tr>
+						<tr>
+							<td>联系电话</td>
+							<td>${(shop.telphone)!''}</td>
+						</tr>
+						<tr>
+							<td>营业时间</td>
+							<td>${(shop.openTime)!''}</td>
+						</tr>
+						<tr>
+							<td>人均消费</td>
+							<td>${(shop.cost)!''}</td>
+						</tr>
+						<#if shop.isDis?? && 0 == shop.isDis>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='green'>已开启</font></td>
+						</tr>
+						<tr>
+							<td>优惠时段</td>
+							<td><font color='green'>${(shop.beginTime)!''}~${(shop.endTime)!''}</font></td>
+						</tr>
+						<tr>
+							<td>优惠内容</td>
+							<td><font color='green'>${(shop.disContent)!''}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<tr>
+							<td>餐台信息</td>
+							<td><table style="background:#EEF3F7">
+									<tr>
+										<td width="100px">餐桌类型</td>
+										<td width="100px">容纳人数</td>
+										<td width="100px">餐桌数量</td>
+									</tr>
+									<#if shop.tableInfos??><#list shop.tableInfos as tis>
+									<tr>
+										<td>${(tis.tableName)!''}</td>
+										<td>${(tis.tableVolume)!'0'}</td>
+										<td>${(tis.tableNum)!'0'}</td>
+									</tr>
+									</#list></#if>
+								</table></td>
+						</tr>
+
+						<tr>
+							<td>经度/纬度</td>
+							<td>${shop.longitude?string("###############.##########")}/${shop.latitude?string("###############.##########")}</td>
+						</tr>
+						<tr>
+							<td>店铺地址</td>
+							<td>${(shop.address)!''}</td>
+						</tr>
+						<tr>
+							<td>店铺介绍</td>
+							<td>${(shop.remark)!''}</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			</#if>
+			<iframe id="submitFrame" name="submitFrame" style="display:none"></iframe>
+		</div>
+		<!--　jquery 引入　-->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js"
+			type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css"
+			rel="stylesheet">
+		<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		<script charset="utf-8" src="/dist/shop/shop.js"></script>
+		<!-- 百度地图 -->
+		<script type="text/javascript"
+			src="http://api.map.baidu.com/api?v=1.3"></script>
+		<script type="text/javascript">
+			parent.document.getElementById("curPlace").innerHTML = "基础功能>>店铺设置";
+			var map = new BMap.Map("container");
+			map.centerAndZoom("柳州", 13);
+			map.enableDragging(); //启用地图拖拽事件，默认启用(可不写)
+			map.enableScrollWheelZoom(); //启用地图滚轮放大缩小
+			map.enableDoubleClickZoom(); //启用鼠标双击放大，默认启用(可不写)
+			map.enableKeyboard(); //启用键盘上下左右键移动地图
+			map.addEventListener("click", function() {
+				var center = map.getCenter();
+			});
+			var localSearch = new BMap.LocalSearch(map);
+			localSearch.enableAutoViewport(); //允许自动调节窗体大小
+			function searchByStationName() {
+				map.clearOverlays(); //清空原来的标注
+				var keyword = document.getElementById("text_").value;
+				localSearch
+						.setSearchCompleteCallback(function(searchResult) {
+							var poi = searchResult.getPoi(0);
+							if (poi != undefined) {
+								document.getElementById("longitude").value = poi.point.lng;
+								document.getElementById("latitude").value = poi.point.lat;
+
+								map.centerAndZoom(poi.point, 16);
+								var marker = new BMap.Marker(new BMap.Point(
+										poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+								map.addOverlay(marker);
+								var content = document.getElementById("text_").value
+										+ "<br/><br/>经度："
+										+ poi.point.lng
+										+ "<br/>纬度：" + poi.point.lat;
+								var infoWindow = new BMap.InfoWindow(
+										"<p style='font-size:14px;'>" + content
+												+ "</p>");
+								marker.addEventListener("click", function() {
+									this.openInfoWindow(infoWindow);
+								});
+							} else {
+								// 创建地址解析器实例
+								var myGeo = new BMap.Geocoder();
+								// 将地址解析结果显示在地图上,并调整地图视野
+								myGeo
+										.getPoint(
+												keyword,
+												function(point) {
+													if (point) {
+														document
+																.getElementById("longitude").value = poi.point.lng;
+														document
+																.getElementById("latitude").value = poi.point.lat;
+
+														map.centerAndZoom(
+																point, 16);
+														map
+																.addOverlay(new BMap.Marker(
+																		point));
+													}
+												}, "柳州市");
+							}
+						});
+				localSearch.search(keyword);
+			}
+
+			function initSet() {
+				var shop = "${(shop)!''}";
+				if ("" == shop) {
+					return;
+				}
+
+				var typeName = "${(shop.typeName)!''}";
+				if ("" != typeName) {
+					var typeNames = document.getElementById("typeName").options;
+					for ( var i = 0, len = typeNames.length; i < len; i++) {
+						if (typeName == typeNames[i].value) {
+							typeNames[i].selected = true;
+							break;
+						}
+					}
+				}
+
+				var isBook = "${(shop.isBook)!''}";
+				var isBooks = document.getElementsByName("isBook");
+				for ( var i = 0, len = isBooks.length; i < len; i++) {
+
+					if (isBook == isBooks[i].value) {
+						isBooks[i].checked = true;
+						break;
+					}
+				}
+
+				var hadArr = "${(shop.had)!''}".split(',');
+				var hads = document.getElementsByName("had");
+				for ( var i = 0, len = hads.length; i < len; i++) {
+					for ( var j = 0, len1 = hadArr.length; j < len1; j++) {
+						if (hadArr[j] == hads[i].value) {
+							hads[i].checked = true;
+							break;
+						}
+					}
+
+				}
+			}
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<title>邻卖网络</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css">
+
+<style type="text/css">
+.contents {
+	padding-top: 44px;
+}
+.carousel  .wipe-list .wipe-list-ul li img {
+	height: 100%;
+	width:auto ; 
+	display: block;
+}
+.conts {
+	padding-top: 23px;
+	padding-bottom: 0px;
+}
+
+.carousel_list .wipe-list .wipe-list-ul li {
+	height: auto;
+	box-shadow: 0px 0px 1px 1px rgba(230,235,239,0.5);
+}
+
+.all-foods.center li {
+	padding-bottom: 10px;
+	margin-bottom:5px;
+	margin:0 0.5% 5px 0.5% ; 
+}
+.nav .borderleft {
+	border-left: 0px solid #E5E5E5; 
+}
+.all-foods ul{
+	width:100% ; 
+}
+.carousel_list .wipe-list .wipe-list-ul{
+	width:100%;
+}
+.all-foods.center li{
+	width:48.3%;
+}
+/* .conts .main .logo{
+	width:20%;
+}
+.conts .main .margin13 {
+	margin-left: 6%;
+} */
+.conts{
+	padding:32px 10px 18px 10px ; 
+}
+.all-foods{
+	/* background-color:#fff ;  */
+	padding-bottom:10px;
+	padding:0px;
+}
+.all-foods img{
+	border-radius:3px;
+}
+.carousel_list .wipe-list .wipe-list-ul li img {
+	width: 90%;
+	display: block;
+	height: 140px;
+	margin: auto;
+	border-radius: 20px;
+}
+</style>
+
+</head>
+<body class="bg-gray">
+	<div class="contents">
+		<div class="header">
+			<!-- <h1 class="page-head">
+				<a href="javascript:window.history.back();" class="fl"></a>邻卖网<a
+					href="/index/index/position.do" id="cityName" class="fr position"><i></i></a>
+			</h1> -->
+			<h1 class="page-head">
+				<a href="javascript:window.history.back();" class="fl"
+					style="width:40px !important"></a> <span class="shop-name"
+					style="padding-left:25%">邻卖网络</span> <span class="search-frame fr">
+					<input type="text" id='searchVal' placeholder="商品名称"> <a
+					href="javascript:searchQuery();">搜索</a>
+				</span> <a class="fr search" href="javascript:searchQuery();"></a> <a
+					href="/index/index/position.do" id="cityName" class="fr"><span
+					id="cityName mar-t-10" style=""></span><i></i> </a>
+			</h1>
+			
+		</div>
+		<#include "../inc/nav_head_menu.html">
+		<div class="conts clearFix">
+			<div class="main clearFix">
+			 
+				<a href="/index/dinner/cookbooks.do?queryType=1&key=2&value=火锅"
+					class="logo"> <img src="/dist/images/huoguo.png" alt="" />
+					<p>火锅</p>
+				</a> <a href="/index/dinner/cookbooks.do?queryType=1&key=2&value=素菜"
+					class="logo margin13"> <img src="/dist/images/sucai.png" alt="" />
+					<p>素菜</p>
+				</a> <a href="/index/dinner/cookbooks.do?queryType=1&key=2&value=甜品"
+					class="logo margin13"> <img src="/dist/images/tianpin.png"
+					alt="" />
+					<p>甜品</p>
+				</a> <a href="/index/dinner/cookbooks.do?queryType=1&key=2&value=其它"
+					class="logo margin13"> <img src="/dist/images/qita.png" alt="" />
+					<p>其它</p>
+				</a>
+			</div>
+		</div>
+		<div class="nav clearFix">
+			<a href="/index/dinner/cookbooks.do?queryType=3" class="a2">
+				<div>
+					<p>天天特价</p>
+					<div class="pic clearFix">
+						<span>"邻卖网络"专享价，等你来！</span> <img src="/dist/images/canting.png"
+							alt="" />
+					</div>
+				</div>
+			</a> <a href="/index/dinner/cookbooks.do?queryType=2" class="a2">
+				<div class="borderleft clearFix">
+					<p>精品套餐</p>
+					<div class="pic clearFix">
+						<span>精心搭配，精心挑选！</span> <img src="/dist/images/canting2.png"
+							alt="" />
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="banners" style="margin-top:10px">
+			<div class="carousel carousel_list">
+				<div class="wipe-list">
+					<ul class="wipe-list-ul clearFix">
+
+						 
+						<li class="all-foods center" >
+							<ul class="clearFix">
+								<li class="fl shop-food"><img
+									src="http://img002.qufenqi.com//resources/upload/category/201507/01/3c7961bc27d4345db6c1a17ebe131091.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=196714d6-ce71-4b54-a235-a246ff335ba5'">
+									<p class="name">泉水葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://7q5brv.com1.z0.glb.clouddn.com/uploads/item_cover/30001_1.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=6bf31aea-89d6-409a-bf9b-c9d13991cdc9'">
+									<p class="name">白切葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://7q5brv.com1.z0.glb.clouddn.com/uploads/item_cover/30001_1.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=196714d6-ce71-4b54-a235-a246ff335ba5'">
+									<p class="name">泉水葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://img002.qufenqi.com//resources/upload/category/201507/01/3c7961bc27d4345db6c1a17ebe131091.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=6bf31aea-89d6-409a-bf9b-c9d13991cdc9'">
+									<p class="name">白切葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://7q5brv.com1.z0.glb.clouddn.com/uploads/item_cover/30010_1.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=196714d6-ce71-4b54-a235-a246ff335ba5'">
+									<p class="name">泉水葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://7q5brv.com1.z0.glb.clouddn.com/uploads/item_cover/30010_1.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=6bf31aea-89d6-409a-bf9b-c9d13991cdc9'">
+									<p class="name">白切葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://img002.qufenqi.com//resources/upload/category/201507/01/1bc88a1203af20e8ae90e0aeffd1624c.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=196714d6-ce71-4b54-a235-a246ff335ba5'">
+									<p class="name">泉水葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+								<li class="fl shop-food"><img
+									src="http://7q5brv.com1.z0.glb.clouddn.com/uploads/item_cover/30001_1.jpg"
+									width="150px" height="150px" alt=""
+									onclick="javascript:window.location.href='/index/fresh/freshDetail.do?freshId=6bf31aea-89d6-409a-bf9b-c9d13991cdc9'">
+									<p class="name">白切葛根鸡</p>
+									<p class="price">
+										<span class="new-price">¥108</span>&nbsp;<span
+											class="last-price">¥128</span>
+									</p>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+ 
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s active" href="/index/index/toIndex.do"><i></i>
+						<p>商品</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>店铺</p></a></li> 
+				<li><a class="w" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/dist/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/dist/js/base.js"></script>
+	
+	<script> 
+		$(function() { 
+			$('#cityName').html($.cookie('cityName'));
+		}); 
+		function searchQuery() {
+	        if ($("#searchVal").val() === "") {
+	            return;
+	        }
+	        window.location.href = "/index/index/queryTableShop.do?filterType=4&filter=" + $("#searchVal").val();
+	    } 
+	</script>
+</body>
+</html>

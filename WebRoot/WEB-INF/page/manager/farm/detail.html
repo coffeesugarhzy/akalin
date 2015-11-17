@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<script charset="utf-8" src="/dist/js/editor.js"></script>
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+<style>
+img {
+	max-width: 500px;
+}
+</style>
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<#if farmProduce??>
+			<fieldset style="width:95%">
+				<legend>农副产品信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">农副LOGO</td>
+							<td><img src='${(farmProduce.logo)!""}' width="120px"
+								height="120px" /></td>
+						</tr>
+						<tr>
+							<td width="100">商品名</td>
+							<td>${(farmProduce.farmName)!""}</td>
+						</tr>
+						<tr>
+							<td width="100">商品编码</td>
+							<td>${(farmProduce.produceCode)!""}</td>
+						</tr>
+						<tr>
+							<td>产品类型</td>
+							<td>${(farmProduce.typeName)!""}</td>
+						</tr>
+						<tr>
+							<td>单价（元）</td>
+							<td>${(farmProduce.price)!""}</td>
+						</tr>
+						<tr>
+							<td>规格</td>
+							<td>${(farmProduce.spec)!""}</td>
+						</tr>
+						<tr>
+							<td>上架时间</td>
+							<td>${(farmProduce.groundTime)!""}</td>
+						</tr>
+						<#if farmProduce.isSale?? && 0 == farmProduce.isSale>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='green'>已开启/特价日：<script>document.write(getWeekName("${(farmProduce.saleDay)!''}"))</script>/特价价格：${(farmProduce.salePrice)!''}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<#if farmProduce.isDis?? && 0 == farmProduce.isDis>
+						<tr>
+							<td>限时抢购</td>
+							<td><font color='green'>已开启/抢购时段：${(farmProduce.beginTime)!''}~${(farmProduce.endTime)!''}/抢购价格（元）：${(farmProduce.disPrice)!''}/抢购数量：${farmProduce.disNum}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<tr>
+							<td>描述</td>
+							<td>${(farmProduce.remarks)!""}</td>
+						</tr>
+						<tr>
+							<td>增加时间</td>
+							<td>${(farmProduce.addDate)!""}</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			</#if>
+		</div>
+	</div>
+</body>
+</html>
+

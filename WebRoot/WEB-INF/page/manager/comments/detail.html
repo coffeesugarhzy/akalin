@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<script charset="utf-8" src="/dist/js/editor.js"></script>
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+<style>
+img {
+	max-width: 500px;
+}
+</style>
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<fieldset style="width:95%">
+				<legend>评论详细 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">评价用户</td>
+							<td>${(comment.customName)!""}</td>
+						</tr>
+						<tr>
+							<td>电话</td>
+							<td>${(comment.telphone)!""}</td>
+						</tr>
+						<tr>
+							<td>评分</td>
+							<td>${(comment.marks)!""}</td>
+						</tr>
+						<tr>
+							<td>订单类型</td>
+							<td>${(comment.commentType)!""}</td>
+						</tr>
+
+						<tr>
+							<td>订单号</td>
+							<td>${(comment.ordersCode)!""}</td>
+						</tr>
+						<tr>
+							<td>订单金额</td>
+							<td>${comment.payMoney}</td>
+						</tr>
+						<tr>
+							<td>评价时间</td>
+							<td>${(comment.addDate)!""}</td>
+						</tr>
+						<tr>
+							<td>评价内容</td>
+							<td><#if comment.commentsContents??><#list
+								comment.commentsContents as cc> <#if 0 == cc.isAppend>
+								${cc.content}[${cc.addDate}]<br><br>
+								<#else>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;追加:${(cc.content)!''}[${(cc.addDate)!''}]<br><br></#if></#list></#if>
+								<#if comment.commentsPics??><#list comment.commentsPics as cp> <img
+								src="${(cp.picPath)!''}" height="120px" width="120px" /><#if
+								4==cp_index%5><br></#if></#list></#if>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+</body>
+</html>
+

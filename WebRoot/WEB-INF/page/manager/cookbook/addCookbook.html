@@ -1,0 +1,151 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id=myform name=myform action="/manager/cookbook/add.do"
+				method="post" enctype="multipart/form-data" target="submitFrame">
+				<fieldset style="width:95%">
+					<legend>产品信息 </legend>
+					<table width="100%" class="table_form">
+						<tbody>
+							<tr>
+								<td width="100">商品LOGO</td>
+								<td><img id=headImgView src="/dist/img/viewimage.jpg"
+									width="120px" height="120px" onclick="$('input#file').click()" />
+									<input type="file" id=file name=file capture="camera"
+									onchange="change('headImgView','file')" accept="image/*"
+									style="display:none" />
+									</div></td>
+							</tr>
+							<tr>
+								<td width="100">商品名称</td>
+								<td><input type="text" id=cookName name=cookName
+									maxlength="60" class="input-text" style="width: 200px;">
+									<input type="hidden" id=cookType name=cookType value=0>
+									<div id="usernameTip" class="onShow">请输入商品名称!</div></td>
+							</tr>
+							<tr>
+								<td width="100">店铺</td>
+								<td><select id="ofShopId" name="ofShopId">
+										<option value="">请选择</option><#if shops??><#list shops
+										as ss>
+										<option value="${ss.shopId}">${ss.shopName}</option>
+										</#list></#if>
+								</select>
+									<div id="usernameTip" class="onShow">请选择店铺!</div></td>
+							</tr>
+							<tr>
+								<td>商品类型</td>
+								<td><select id="typeName" name="typeName"> <#if
+										dataTypes??><#list dataTypes as dts>
+										<option value="${dts.typeName}">${dts.typeName}</option>
+										</#list></#if>
+								</select></td>
+							</tr>
+							<tr class="cookTypeName">
+								<td>自定义分类</td>
+								<td>
+								<select id="cookbookType" name="cookbookType">
+										<option value="">默认类型</option>
+								</select>
+								<div id="usernameTip" class="onShow">先选择商铺，再选择自定义分类</div></td>
+								</td>
+							</tr>
+							<tr>
+								<td>商品状态</td>
+								<td><select id="isShel" name="isShel"> 
+										<option selected='selected' value="1">上架</option>
+										<option value="0">下架</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>单价（元）</td>
+								<td><input type="text" id=price name=price maxlength="6"
+									class="input-text" style="width: 130px;">
+									<div id="usernameTip" class="onShow">请输入商品价格!</div></td>
+							</tr>
+							<tr>
+								<td>商品描述</td>
+								<td><textarea id=remarks name=remarks cols="10" rows="8"
+										style="width: 90%; height: 200px;"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<div class="ds_dialog_buttons">
+					<a onclick="validate()" class="ds_dialog_yess"><span>确定</span></a>
+				</div>
+			</form>
+			<iframe id="submitFrame" name="submitFrame" style="display:none"></iframe>
+		</div>
+
+		<!--　jquery 引入
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>　-->
+		<script src="http://www.w3school.com.cn/jquery/jquery-1.11.1.min.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js"
+			type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css"
+			rel="stylesheet">
+
+		<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+
+		<script>
+			var submitnum = 0;
+			function validate() {
+				if (0 != submitnum) {
+					return;
+				}
+				var tip = tt.validate();
+				if (tip === true) {
+				    var file = $('#file').val();
+                    if (null === file || "" === file) {
+                        top.dsAlert('请上传LOGO');
+                        return false;
+                    }
+					submitnum++;
+					document.getElementById("myform").submit();
+				}
+			}
+
+			$(function() {
+				tt.vf.req.add("cookName", "price", "ofShopId");
+				tt.vf.num.add("price");
+				initEditor("remarks"); 
+				 $('#ofShopId').change(function(){
+					 var val=$(this).val();
+					 if(val!=''){
+						 var html=$('#cookbookType').html();
+						 $.post('./listTypeOfShop.do',{shopId:val},function(data){
+							 
+							var json= $.parseJSON(data);
+							if(json.result.length>0){
+								 for(var i=0;i<json.result.length;i++){
+									 var result=json.result[i];
+									  html=html+'<option value="'+result.typeId+'">'+result.typeName+'</option>'; 
+								 }
+							 }
+							 $('#cookbookType').html(html);
+						 });
+					 }else{
+						 $('#cookTypeName').html("<option value=''>默认类型</option>");
+					 }
+				 });
+			});
+		</script>
+	</div>
+</body>
+</html>
+

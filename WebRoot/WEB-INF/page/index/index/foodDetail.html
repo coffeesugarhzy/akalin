@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网络-详情页</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="product_details">
+		<!--头部-->
+		<div class="header">
+			<h1 class="page-head clearFix">
+				<a href="javascript:window.history.back();" class="fl back"></a> <span
+					class="shop-name left80">${Request.food.title}&nbsp;详情</span> 
+			</h1>
+		</div>
+		<p class="reviews_title marginTop">
+			<span class="sp2">详情</span>
+		</p>
+		<div class="product">
+			<div class="textarea">
+				<span>${Request.food.content}</span>
+			</div>
+		</div>
+		<div class="introduce clearFix">
+			<div class="right">
+				<p class="p2">
+					<span>地址 :</span> <span>${Request.food.address!''}</span>
+				</p>
+			</div>
+			<p class="fg"></p>
+			<div class="skill"> 
+      			<a style="background-color:#d12147;" href="javascript:location.href='toOrdersShop.do?shopId=${Request.food.ofShopId}&type=food'">点击此处去订餐</a>
+    		</div> 
+		</div>
+	</div>
+	<div class="shade none"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var hasTouch = 'ontouchstart' in window;
+		var START_EV = hasTouch ? 'touchstart' : 'mousedown';
+		var END_EV = hasTouch ? 'touchend' : 'mouseup';
+		var MOVE_EV = hasTouch ? 'touchmove' : 'mousemove';
+		//     菜单弹出层
+		var $menu = $(".menu");
+		var $mask_layer = $(".mask_layer");
+		var $add_cut = $(".order_contents .sp1").find("em");
+		var $start = $(".start>i")
+		$menu.on('click', function() {
+			if ($(".popup").hasClass("popup_mark")) {
+				$(".popup").removeClass("popup_mark").fadeOut(100);
+				$(".mask_layer").css({
+					display : 'none'
+				})
+			} else {
+				$(".popup").addClass("popup_mark").fadeIn(1000);
+				$(".mask_layer").css({
+					display : 'block'
+				})
+			}
+		})
+		//     点击遮罩层
+		$mask_layer.on('click', function() {
+			$(".popup").fadeOut(100).removeClass("popup_mark");
+			$(this).css({
+				display : "none"
+			})
+		})
+		//     图标点击效果
+		$(".mark_menu").on(START_EV, function() {
+		});
+		$(".mark_a").on(START_EV, function() {
+		});
+		$add_cut.on(START_EV, function() {
+		});
+		$(".btn>a").on(START_EV, function() {
+		});
+		//     评价星星
+		$start.on(START_EV, function() {
+			if ($(this).hasClass("active")) {
+				$(this).removeClass("active");
+				$(this).prevAll().addClass("active");
+				$(this).nextAll().removeClass("active");
+			} else {
+				$(this).addClass("active");
+				$(this).prevAll().addClass("active")
+				$(this).nextAll().removeClass("active");
+			}
+		});
+		$(".cart-ico").on(
+				START_EV,
+				function() {
+					if (!$(this).hasClass('current')) {
+						$(this).addClass('current');
+						$(".shade").removeClass('none');
+						$(".food-choice-list").css("visibility", "visible")
+								.addClass('slideInUp').removeClass(
+										'slideOutDown');
+					} else {
+						window.setTimeout(function() {
+							$(".food-choice-list").css({
+								visibility : "hidden"
+							});
+						}, 500);
+						$(this).removeClass('current');
+						$(".shade").addClass('none');
+						$(".food-choice-list").removeClass('slideInUp')
+								.addClass('slideOutDown');
+					}
+					return false;
+				});
+		$(".shade").on(
+				START_EV,
+				function() {
+					window.setTimeout(function() {
+						$(".food-choice-list").css({
+							visibility : "hidden"
+						});
+					}, 500);
+					$(".cart-ico").removeClass('current');
+					$(this).addClass('none');
+					$(".food-choice-list").removeClass('slideInUp').addClass(
+							'slideOutDown');
+					return false;
+				});
+		$(".search-items,.shopping-cart").on(
+				START_EV,
+				function() {
+					window.setTimeout(function() {
+						$(".food-choice-list").css({
+							visibility : "hidden"
+						});
+					}, 500);
+					$(".cart-ico").removeClass('current');
+					$(".shade").addClass('none');
+					$(".food-choice-list").removeClass('slideInUp').addClass(
+							'slideOutDown');
+					return false;
+				});
+	})
+</script>
+</html>

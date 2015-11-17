@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="off">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>后台管理中心</title>
+		<link href="dist/css/reset.css" rel="stylesheet" type="text/css" /> 
+		<link href="dist/css/header.css" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="dist/js/jquery.min.js"></script>  
+		<script type="text/javascript" src="dist/js/header.js"></script>  
+	</head>
+	 
+	<body scroll="no" class="objbody">
+		<input type="hidden" value="" id="header-title" name="header-title"/>
+		<div class="header">
+			<#if Session.loginUser??>
+				<#if Session.loginUser.userType == 1>
+					<div class="logo lf shop">
+						 <span class="invisible">商家后台管理系统</span> 
+					</div>
+				<#else>
+					<div class="logo lf">
+						 <span class="invisible">商家后台管理系统</span> 
+					</div>
+				</#if>
+			</#if>
+			<div class="col-auto">
+				<div class="log white cut_line"> 
+					<span></span><a href="logOut.do" target="_top"></a><span></span>
+				</div>
+				<div class="log white cut_line right"> 
+					您好 ！<#if Session.loginUser??> ${Session.loginUser.userName}  </#if>&nbsp;<#if Request.userRole??> ${Request.userRole.roleName}  </#if>
+					<#if Session.loginUser.userType==0>
+					    <span></span><a href="logOut.do" target="_top">[退出]</a><span></span>
+                    <#else>
+                         <span></span><a href="logOutShop.do" target="_top">[退出]</a><span></span>
+                    </#if>
+				</div>
+				<ul class="nav white lf" id="nav_menu">
+					
+					<#if Request.mainMenus??> 
+						<#list Request.mainMenus as menu>
+						   <#if menu_index = 0>
+							<li class="top_menu on">
+								<a data-href="/toHome.do?menuId=${menu.menuId}" target="homeDisplay"
+									hidefocus="true" style="outline: none;cursor: pointer;">${menu.menuName}</a>
+							</li>
+							<#else>
+							<li class="top_menu">
+								<a data-href="/toHome.do?menuId=${menu.menuId}" target="homeDisplay"
+									hidefocus="true" style="outline: none;cursor: pointer;">${menu.menuName}</a>
+							</li>
+							</#if> 
+						</#list> 
+					</#if> 
+				</ul>
+			</div>
+		</div>
+
+	</body>
+</html>

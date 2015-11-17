@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta content="width=640,target-densitydpi=320, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>注册</title>
+<link rel="stylesheet" type="text/css" href="/dist/css/myHead.css" />
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/md5.js"></script>
+<style>
+
+.line-style{color: #aaa;text-align:center;margin-top:1em}
+.line-style a{color:#000;text-decoration:none; font-size:20px;}
+.line-style{font-size: 24px;}
+#submitButton{display:block;background-color:#ef473a;color:#ffffff;padding:15px;font-size: 26px;border-radius:4px;width: 93%;font-family:微软雅黑}
+@media only screen and (min-width: 480px) and (max-width: 767px){
+
+}
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+ .header_title,#submitButton{font-size:22px;font-family: "微软雅黑";}
+ .line-style a{font-size: 16px;padding-top:10px;color: #000;text-decoration: none;}
+  .input_text{font-size:22px;}
+  .validation{font-size:16px;padding:0 5px;line-height: 48px;height: 48px;}
+}
+@media only screen and (max-width: 320px) {
+ .line-style a{font-size: 15px;margin-top:10px;font-family: "微软雅黑";color: #000;text-decoration: none;}
+ .input_text{font-size:20px;}
+ .validation{font-size:16px;padding:0 5px;line-height: 48px;height: 48px;}
+  #submitButton{padding:10px;font-size:24px;}
+}
+</style>
+
+
+</head>
+<body>
+	<form action="register.action" id="myForm" method="post">
+        <div class="header">
+			<div class="file_cion header_back">
+				<a href="javascript:history.back();"></a>
+			</div>
+			<div class="header_title">注册</div>
+		</div>
+		<div class="content">
+			<input type="tel" class="input_text" name="phone" id="phone"
+				value="" placeholder="手机号码" maxlength="11" />
+			<div class="border">&nbsp;</div>
+			<input type="password" class="input_text margin_t30" name="password"
+				id="password" placeholder="密码" value="" maxlength="32" />
+			<div class="border">&nbsp;</div>
+			<div class="disun">
+				<div class="inspection">
+					<input type="tel" class="input_text" name="checkCode"
+						id="checkCode" value="" placeholder="验证码" maxlength="10" />
+					<div class="border">&nbsp;</div>
+				</div>
+				<div class="validation" id="validation"
+					onclick="javascript:sendCheckCode()">
+					获取验证码 
+				</div>
+			</div> 
+			<div class="line-style">
+			   <input type="checkbox" style="width:20px;height:20px;" name="accept" id="accept">
+			   <a href="/index/index/intro.do">我已阅读并同意《邻卖服务协议》</a>
+			</div>
+			<br><br>
+			<div style="text-align:center;bord-radius:4px;display:flex;"> 
+      			<a id="submitButton" >注册</a>
+    		</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/dist/js/regist.js"></script>
+</body>
+</html>

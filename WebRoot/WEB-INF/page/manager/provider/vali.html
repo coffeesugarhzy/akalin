@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+
+</head>
+<body>
+    <div class="subnav">
+		<div class="content-menu ib-a blue line-x">
+			<a onclick="top.dsIframe('编辑 ${Request.bean.userName}' , '/manager/provider/modify.do?id=${Request.bean.userId}' ,800,550)"
+				class="add fb"><em>编辑商家</em> </a>
+		</div>
+	</div>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<fieldset style="width:95%">
+				<legend>商家信息 </legend>
+				<table width="100%" class="table_form">
+					<tr>
+						<td width="100px">LOGO</td>
+						<td><img id="imgView" src="${(Request.bean.logo)!''}"
+							width="120px" height="120px" /></td>
+					</tr>
+					<tr>
+						<td width="80">商家登陆名</td>
+						<td><#if
+							Request.bean.loginName??>${Request.bean.loginName}</#if></td>
+					</tr>
+					<tr>
+						<td width="80">商家名字</td>
+						<td><#if
+							Request.bean.userName??>${Request.bean.userName}</#if></td>
+					</tr>
+					<tr>
+						<td width="80">联系电话</td>
+						<td><#if
+							Request.bean.telphone??>${Request.bean.telphone}</#if></td>
+					</tr>
+					<tr>
+						<td width="80">商家描述</td>
+						<td><#if Request.bean.remark??>
+										${Request.bean.remark}
+									</#if></td>
+					</tr>
+					<tr>
+					    <td colspan="2">
+					      <p style="color:blue;font-weight:bold;">商家须完成【营业执照】、【地点】认证,通过认证后及获得菜单权限；推荐进行个人认证可选认证！</p>
+					    </td>
+					</tr>
+
+					<tr>
+					     <td width="80">营业执照认证</td>
+					     <#if Request.shopValid??>
+					            <td>
+					              <#if Request.shopValid.isValid==0>
+					                 <span style="color:#38bcaf;font-weight:bold;">正在审核中</span> 
+					              </#if>   
+					              <#if Request.shopValid.isValid==1>
+					                 <span style="color:blue;font-weight:bold;">已通过认证</span> 
+					              </#if>   
+					              <#if Request.shopValid.isValid==2>
+					                 <span style="color:red;font-weight:bold;">认证审核失败！
+					                 <#if Request.shopValid.remark??>
+					                  	失败原因：${Request.shopValid.remark}
+					                  </#if>
+					                 &nbsp;&nbsp;
+								     <a onclick="top.dsIframe('商店执照认证' , '/manager/provider/valid.do?id=${Request.shopValid.id}&type=2' ,800,550)">
+					          			  [重新进行认证]
+					                 </a>
+					                </span>
+					                                  
+					              </#if> 
+					            </td>
+					        <#else>
+					     <td>
+					        <span style="color:blue;">未认证</span> 
+					         <a onclick="top.dsIframe('商店执照认证' , '/manager/provider/valid.do?type=2' ,800,550)">
+					            [点击进行认证]
+					         </a>
+					     </td></#if>
+                   </tr>
+
+					<tr>
+					     <td width="80">地点认证</td>
+					     <#if Request.placeValid??>
+					            <td>
+					              <#if Request.placeValid.isValid==0>
+					                 <span style="color:#38bcaf;font-weight:bold;">正在审核中</span> 
+					              </#if>   
+					              <#if Request.placeValid.isValid==1>
+					                 <span style="color:black;font-weight:bold;">已通过认证</span> 
+					              </#if>   
+					              <#if Request.placeValid.isValid==2>
+					                 <span style="color:red;font-weight:bold;">认证审核失败！
+					                 <#if Request.placeValid.remark??>
+					                  	失败原因：${Request.placeValid.remark}
+					                  </#if>
+					                  </span>
+					                  &nbsp;&nbsp;
+								     <a onclick="top.dsIframe('地点认证' , '/manager/provider/valid.do?id=${Request.placeValid.id}&type=3' ,800,550)">
+					          			  [重新进行认证]
+					                 </a>
+					              </#if> 
+					            </td>
+					        <#else>
+					     <td>
+					        <span style="color:blue;">未认证</span> 
+					         <a onclick="top.dsIframe('地点认证' , '/manager/provider/valid.do?type=3' ,800,550)">
+					            [进行进行认证]
+					         </a>
+					     </td></#if>
+				</tr>
+				
+					<tr>
+					     <td width="80">法人认证</td>
+					     <#if Request.personValid??>
+					            <td>
+					              <#if Request.personValid.isValid==0>
+					                 <span style="color:#38bcaf;font-weight:bold;">正在审核中</span> 
+					              </#if>   
+					              <#if Request.personValid.isValid==1>
+					                 <span style="color:black;font-weight:bold;">已通过认证</span> 
+					              </#if>   
+					              <#if Request.personValid.isValid==2>
+					                 <span style="color:red;font-weight:bold;">认证审核失败！
+					                 <#if Request.personValid.remark??>
+					                  	失败原因：${Request.personValid.remark}</span>
+					                  </#if>
+					                </span>
+					                 &nbsp;&nbsp;
+								     <a onclick="top.dsIframe('个人实名认证' , '/manager/provider/valid.do?id=${Request.personValid.id}&type=1' ,800,550)">
+					          			  [重新进行认证]
+					                 </a>
+					              </#if>
+					            </td>
+					        <#else>
+					     <td>
+					        <span style="color:blue;">未认证</span> 
+					         <a onclick="top.dsIframe('个人实名认证' , '/manager/provider/valid.do?type=1' ,800,550)">
+					            [点击进行认证]
+					         </a>
+					      </td>
+					      </#if>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+
+	<!--　jquery 引入 -->
+	<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+	</div>
+</body>
+</html>
+

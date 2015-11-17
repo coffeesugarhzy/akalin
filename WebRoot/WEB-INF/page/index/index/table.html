@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<title>邻卖网络-订桌</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css">
+
+</head>
+<body class="bg-gray">
+	<div class="contents">
+		<div class="header">
+			<h1 class="page-head">
+				<a href="javascript:window.history.back();" class="fl back"></a>订桌<a
+					href="/index/index/position.do" class="fr position"><span
+					id="cityName" style="margin-right: 10px"></span><i></i> </a>
+			</h1>
+		</div>
+		<#include "../inc/nav_head_menu.html">
+		<div class="conts clearFix">
+			<div class="main clearFix">
+				<a href="/index/index/queryTableByType.do?type=中餐" class="logo">
+					<img src="/dist/images/zhongcan.png" alt="" />
+					<p>中餐</p>
+				</a> <a href="/index/index/queryTableByType.do?type=西餐"
+					class="logo margin13"> <img src="/dist/images/xican.png" alt="" />
+					<p>西餐</p>
+				</a> <a href="/index/index/queryTableByType.do?type=海鲜"
+					class="logo margin13"> <img src="/dist/images/haixian.png"
+					alt="" />
+					<p>海鲜</p>
+				</a> <a href="/index/index/queryTableByType.do?type=日本料理"
+					class="logo margin13"> <img src="/dist/images/rihan.png" alt="" />
+					<p>日本料理</p>
+				</a> <a href="/index/index/queryTableByType.do?type=火锅" class="logo">
+					<img src="/dist/images/huoguo.png" alt="" />
+					<p>火锅</p>
+				</a> <a href="/index/index/queryTableByType.do?type=自助餐"
+					class="logo margin13"> <img src="/dist/images/zizhucan.png"
+					alt="" />
+					<p>自助餐</p>
+				</a> <a href="/index/index/queryTableByType.do?type=特色菜"
+					class="logo margin13"> <img src="/dist/images/tesecai.png"
+					alt="" />
+					<p>特色菜</p>
+				</a> <a href="/index/index/queryTableByType.do?type=其它"
+					class="logo margin13"> <img src="/dist/images/qita.png" alt="" />
+					<p>其它</p>
+				</a>
+			</div>
+		</div>
+		<div class="nav clearFix">
+			<a href="/index/index/popularity.do" class="a1">
+				<div>
+					<p>人气餐厅</p>
+					<div class="pic">
+						<img src="/dist/images/canting.png" alt="" />
+					</div>
+				</div>
+			</a> <a href="/index/index/hot.do" class="a1">
+				<div class="borderleft">
+					<p>火爆小吃</p>
+					<div class="pic">
+						<img src="/dist/images/xiaochi.png" alt="" />
+					</div>
+				</div>
+			</a> <a href="/index/index/popularity.do" class="a1">
+				<div class="borderleft">
+					<p>特色餐厅</p>
+					<div class="pic">
+						<img src="/dist/images/canting2.png" alt="" />
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="times-price">
+			<div class="buy-time">
+				<h2>限时抢购</h2>
+				<div class="timer" data-times="2019/3/20,23:20:12">
+					<span>0</span><span>8</span><span class="pointer">:</span><span>4</span><span>3</span><span
+						class="pointer">:</span><span>4</span><span>0</span>
+				</div>
+				<p>柳州各大美食，限时抢购！</p>
+			</div>
+			<a href="/index/index/shop.do"> <img class="time-imgs"
+				src="/dist/images/pic_timers.png" width="100%"> <img
+				class="rush" src="/dist/images/rush.png" width="40px" height="40px">
+			</a>
+		</div>
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s active" href="/index/index/toIndex.do"><i></i>
+						<p>首页</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>附近</p></a></li>
+				<li><a class="d" href="/index/orders/ordershopsec.do"><i></i>
+						<p>订单</p></a></li>
+				<li><a class="w" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/dist/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/dist/js/zepto.touchwipe.min.js"></script>
+	<script type="text/javascript" src="/dist/js/base.js"></script>
+	<script type="text/javascript">
+		$(function() {  
+			$('#cityName').html($.cookie('cityName'));
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="IE=7" http-equiv="X-UA-Compatible"> 
+
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+ 
+<link href="/dist/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<link href="/dist/jqGrid/css/jquery-ui.custom.css" rel="stylesheet" type="text/css" />
+<link href="/dist/jqGrid/css/style.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<body>
+<div class="subnav"> 
+</div>
+<div class="pad-lr-10">
+    <form method="get" name="searchform"> 
+        <table width="100%" cellspacing="0"  style="font-size:12px" class="search-form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain-col"> 
+                                                               搜索关键字： 
+					    <input type="text" class="input-text" value="${(keyword)!''}" name="keyword">
+						<input type="hidden" value="${status!0}" name="status" /> 
+                        <span class="content-menu ib-a blue line-x" style="">
+        					<a onclick="search_keyword()" class="add fb"><em>搜索 </em></a>  
+    					</span>  
+    					
+					    <span class="content-menu ib-a blue line-x" style="float:right">
+					       <#if 0 == status>
+								<a href="/manager/shop/listProv.do?status=0" class="add1 fb"><em>在线商铺</em></a>
+							<#else>
+								<a href="/manager/shop/listProv.do?status=0" class="add fb"><em>在线商铺</em></a>
+							</#if>
+							<#if 1 == status>
+							 	<a href="/manager/shop/listProv.do?status=1" class="add1 fb"><em>今日推荐</em></a>
+							<#else>
+							   	<a href="/manager/shop/listProv.do?status=1" class="add fb"><em>今日推荐</em></a>
+							</#if>
+							<#if 2 == status>
+								<a href="/manager/shop/listProv.do?status=2" class="add1  fb"><em>本周精选</em></a>
+							<#else>
+							    <a href="/manager/shop/listProv.do?status=2" class="add  fb"><em>本周精选</em></a>
+							</#if>
+					    </span>
+					</div>
+                </td> 
+            </tr>
+            </tbody>
+        </table> 
+    </form>
+    <table id="list"></table>
+    <div id="no"></div>
+	<div id="pager"></div>
+</div>
+
+<!-- jqgrid js引入　-->
+<script type="text/javascript" src="/dist/jqGrid/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/dist/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="/dist/jqGrid/js/i18n/grid.locale-cn.js"></script>
+ 
+<!-- 数据连接 -->
+    <script type="text/javascript">
+	var name = $.trim($("input[name='keyword']").val());
+	var status = $.trim($("input[name='status']").val());
+    function search_keyword(){
+    	$("#list").jqGrid('setGridParam',{
+			url : "/manager/shop/listJsonProv.do",
+			postData : {
+				'keyword' : name,
+				'status' : status
+			},
+			page : 1
+		}).trigger("reloadGrid");
+    }
+  
+$(function(){
+        $("#list")
+        .jqGrid(
+            {
+url : '/manager/shop/listJsonProv.do',
+postData : {
+    'keyword' : name,
+    'status' : status
+},
+datatype : "json",
+colNames : ['','名称', '预订','已满','类型','联系人','电话','是否在线','今日推荐','本周精选','操作' ],
+colModel : [ 
+{
+	sortable : false,
+	name : 'shopId',
+	index : 'shopId',
+	align : 'left' ,  
+	hidden : true
+},{
+sortable : false,
+name : 'shopName',
+index : 'shopName',
+align : 'left'
+},{
+	sortable : false,
+	name : 'isBook',
+	index : 'isBook',
+	width : 60,
+	align : 'left', 
+	formatter : isbookFormat
+},
+{
+	sortable : false,
+	name : 'isFull',
+	index : 'isFull',
+	width : 60,
+	align : 'left'
+},
+{
+	sortable : false,
+	name : 'typeName',
+	index : 'typeName',
+	width : 60,
+	align : 'left'
+},
+{
+	sortable : false,
+	name : 'linkMan',
+	index : 'linkMan',
+	width : 60,
+	align : 'left'
+},{
+	sortable : false,
+	name : 'telphone',
+	index : 'telphone',
+	width : 60,
+	align : 'center'
+},
+{
+	sortable : false,
+	name : 'online',
+	index : 'online',
+	width : 60,
+	align : 'left', 
+	formatter : isOnlineFormat
+},
+{
+	sortable : false,
+	name : 'isToday',
+	index : 'isToday',
+	width : 60,
+	align : 'left', 
+	formatter : isTodayFormat
+},
+{
+	sortable : false,
+	name : 'isWeekly',
+	index : 'isWeekly',
+	width : 60,
+	align : 'left', 
+	formatter : isWeeklyFormat
+},
+{
+sortable : false,
+name : '',
+index : '',
+width : 60,
+align : 'center' , 
+formatter : optionFormat
+} ],
+jsonReader : {
+root : "content",
+       page : "page",
+       total : "total",
+       records : "records",
+       repeatitems : false
+             },
+rowNum : 15,
+       rowList : [ 5, 10, 15, 20, 30, 50 ],
+       pager : 'pager',
+       autowidth : true,
+       height : 'auto',
+       gridview : true,
+       viewrecords : true,
+       loadComplete : function(data) {
+           if (data.records === 0) {
+               $("#update_btn").hide();
+               $("#remove_btn").hide();
+               $("#queryByName").hide();
+           } else {
+               $("#update_btn").show();
+               $("#remove_btn").show();
+               $("#queryByName").show();
+           }
+       }
+});
+}) ; 
+
+function isbookFormat(cellValue, options, rowObject){ 
+	var status = rowObject['isBook'] ;   
+	var ediStr = "<span class='delete'><a style='cursor:pointer'>"+(status==1?"<font style='color:red'>不可预订</font>":"可预订")+"</a></span>" ;
+	return ediStr ; 
+} 
+
+
+function isOnlineFormat(cellValue, options, rowObject){ 
+	var status = rowObject['online'] ;   
+	var ediStr = "<span class='delete'><a style='cursor:pointer'>"+(status==1?"<font style='color:red'>在线</font>":"离线")+"</a></span>" ;
+	return ediStr ; 
+} 
+function isWeeklyFormat(cellValue, options, rowObject){ 
+	var status = rowObject['isWeekly'] ;   
+	var ediStr = "<span class='delete'><a style='cursor:pointer'>"+(status==1?"<font style='color:blue'>是</font>":"否")+"</a></span>" ;
+	return ediStr ; 
+} 
+
+function isTodayFormat(cellValue, options, rowObject){ 
+	var status = rowObject['isToday'] ;   
+	var ediStr = "<span class='delete'><a style='cursor:pointer'>"+(status==1?"<font style='color:blue'>是</font>":"否")+"</a></span>" ;
+	return ediStr ; 
+} 
+
+function optionFormat(cellValue, options, rowObject){ 
+	var id = rowObject['shopId'] ;  
+	var name =  rowObject['shopName'] ; 
+	var addStr= "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"设置 ["+name+"]\" , \"/manager/shop/modShop.do?id="+id+"\" ,400,180)'>设置</a></span>" ;
+	var ediStr = "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"详情 ["+name+"]\" , \"/manager/shop/detail.do?id="+id+"\" ,700,560)'>详情</a></span>" ;
+	return addStr+"&nbsp;&nbsp;"+ediStr+"&nbsp;&nbsp;";
+ 
+} 
+</script>
+
+</body>
+</html>
+

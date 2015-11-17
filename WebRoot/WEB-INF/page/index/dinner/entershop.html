@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${shop.shopName} -- 邻卖网</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" href="/dist/css/style.css">
+<style type="text/css">
+	.header{padding-top: 0px;}
+	.contents {
+		padding: 0px 0 10px 0;
+	}
+	.introduce {margin-bottom:0px !important;}
+</style>
+</head>
+<body class="bg-gray">
+	<div class="product_details" style="padding-bottom:40px">
+		<!--头部-->
+		<div class="header">
+			<div class="mask_layer"></div>
+			<div class="bg clearFix">
+				<img src="${shop.logo}" style="width:100%;max-width:640px" alt="" />
+			</div>
+			<a href="javascript:window.history.back();" class="go_back"> <img
+				src="/dist/images/go_back.png" alt="" />
+			</a>
+			<div class="title">
+				<span>${shop.shopName}</span> 
+			    <#if Request.customLike ??>
+					<a href="javascript:customLike();" data-opt="1" id="customlike" data-shop="${Request.shop.shopId}" style="right:20px;" class="collect mark_a customlike colle_active"></a>  
+				<#else>
+					<a href="javascript:customLike();" data-opt="0" id="customlike" data-shop="${Request.shop.shopId}" style="right:20px;" class="collect mark_a customlike"></a>  
+				</#if>
+			</div>
+		</div>
+		<!--菜单-->
+		 
+		<!-- <div class="second-menu clearFix">
+			<ul>
+				<a href=""><li>首页</li></a>
+				<a href="/index/dinner/shopall.do?shopId=${shop.shopId}"><li>全部</li></a>
+				<a href="/index/dinner/shopnew.do?shopId=${shop.shopId}"><li>上新</li></a>
+				<a href="/index/dinner/shopdetail.do?shopId=${shop.shopId}"><li>简介</li></a>
+			</ul>
+		</div> -->
+		
+		<div class="introduce clearFix" style="border-top-style:none;margin-top: 5px;margin-bottom: 5px !important;padding: 10px;height: auto;padding-top: 8px;line-height: 1.4;padding-bottom: 8px;padding-left: 30px;font-size: 14px;color: #666;background-image: url(&quot;/dist/img/icon/locatioin_point.png&quot;);background-repeat: no-repeat;background-position: 0;">	
+		 <a href="/index/near/map.do?shopId=${Request.shop.shopId}"><i
+						class="a"></i>${Request.shop.address}<span class="fr arrow">›</span></a> 
+		</div>
+		<div class="introduce clearFix" style="border-top-style:none">
+			<div class="search_shop">
+			    <select name="cooktype" id="cooktype" style="float:left;width:40%;padding:8px;">
+			        <option value="">全部商铺分类</option>
+			        <#if cooktype=='default'>
+			           <option value="default" selected=true>默认分类</option>
+			          <#else>
+			           <option value="default">默认分类</option>
+			        </#if>
+			        
+			        <#if cookbookTypes??>
+			          <#list cookbookTypes as dts>
+			              <#if cooktype==dts.typeId>
+			                 <option value="${dts.typeId}" selected=true>${dts.typeName}</option>
+			               <#else>
+			                <option value="${dts.typeId}">${dts.typeName}</option>
+			              </#if>
+			           </#list>
+			        </#if>
+			    </select>
+				<input type="text" id='searchVal' value="${value}" style="float:left;width:50%;" placeholder="本店搜索" />
+				 <a id="search" href="javascript:void(0);" style="float:left;width:10%;"></a>
+				<div style="clear:both;"></div>	
+			</div>
+		</div>
+		
+	 
+		
+		<div class="contents">
+		 
+		<#if cookbooks?? && 0<cookbooks?size>
+		<div class="foods-list">
+            <ul>
+                <#list cookbooks as cks>
+				<#assign saleType = "-1">
+		        <#assign salePrice = "0">
+		        <#assign suggest = "">
+				<#if cks.cookType ?? && 1==cks.cookType>
+		           <#assign suggest = "${cks.suggest}">
+		        </#if>
+		        <#if cks.isSale?? && 0==cks.isSale && weekDay==cks.saleDay>
+		           <#assign saleType = "0">
+		           <#assign salePrice = "${cks.salePrice?string('######################.##')}">
+		        <#elseif cks.isDis?? && 0==cks.isDis && cks.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < cks.endTime?time("HH:mm") && 0 < cks.disNum> 
+		           <#assign saleType = "1">
+		           <#assign salePrice = "${cks.disPrice?string('######################.##')}"> 
+			    </#if>
+                <li class="clearFix" >
+                    <img onclick="javascript:window.location.href='/index/dinner/shopcbdetail.do?cookbooksId=${cks.cookbooksId}'" class="fl" src="${cks.logo}" width="70" height="70" alt="" >
+                    <p class="name">${cks.cookName}</p>
+                    <#if 0==cks.cookType>
+				      <p class="intro">类型：${cks.typeName}</p>
+				    <#else>
+				      <p class="intro">建议就餐人数：${cks.suggest}</p>
+				     </#if>
+                    <p class="price">
+                        <#if 0 <= saleType?number>
+						    <span class="new-price">¥${salePrice}</span>&nbsp;<span class="last-price">¥${cks.price}</span>
+						<#else>
+						    <span class="new-price">¥${cks.price}</span>
+						</#if>
+                    </p>
+                    <a class="sub" ontouchend="lessFunc('${cks.cookbooksId}');"></a> <span
+						class="food-num" id="num${cks.cookbooksId}">0</span> <a
+						class="add" ontouchend="plusFunc('${cks.cookbooksId}','${cks.cookName}','${cks.logo}', '${cks.ofShopId}', '${cks.shopName}', '${cks.price?string('######################.##')}', '${saleType}','${salePrice}', '${suggest}')"></a>
+				</li>
+                </#list>
+                </ul>
+        </div>
+        <#else>
+        没有数据
+        </#if>
+        <div class="shade none"></div>
+		<!-- <div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num" class="_num">0</span></a>
+				<span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr" >
+				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+			</div>
+		</div>
+		<div class="food-choice-list">
+			<ul id="cart">
+			</ul>
+		</div> -->
+	</div>
+		
+		<!--限时抢购-->
+		<#if flashsales?? && 0<flashsales?size>
+		<p class="reviews_title marginTop20 like" style="position: relative">
+			<span class="sp2">限时抢购</span><a href="/index/dinner/shopflash.do?shopId=${shop.shopId}" class="mor_mu"></a>
+		</p>
+		<div class="banners" style="margin-top:10px">
+			<div class="carousel">
+				<div class="wipe-list">
+					<ul class="wipe-list-ul clearFix">
+						<#list flashsales as fss> <#if 0==fss_index%2>
+						<li class="all-foods center" style="padding:0">
+							<ul class="clearFix">
+								</#if>
+						<li class="fl"><img src="${fss.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/dinner/shopcbdetail.do?cookbooksId=${fss.cookbooksId}'>
+						<p class="name">
+						   <#if fss.cookName?length < 8>${fss.cookName}<#else>${fss.cookName?substring(0,8)}...</#if>
+						</p>
+						<p class="price">
+							<span class="new-price">¥${fss.disPrice}</span>&nbsp;<span
+								class="last-price">¥${fss.price}</span>
+						</p></li>
+						<#if 1==fss_index%2></ul></li></#if> </#list>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</#if> 
+		 
+		<#if plans?? && 0<plans?size>
+		<!--精品套餐-->
+		<p class="reviews_title marginTop20 like">
+			<span class="sp2">精品套餐</span><a href="/index/dinner/shopplans.do?shopId=${shop.shopId}" class="mor_mu"></a>
+		</p>
+		<div class="banners" style="margin-top:10px">
+			<div class="carousel">
+				<div class="wipe-list">
+					<ul class="wipe-list-ul clearFix">
+						<#list plans as ps>
+						<#assign saleType = "-1">
+		                <#assign salePrice = "0">
+		                <#assign suggest = "">
+						<#if 0==ps_index%2>
+						<#if ps.cookType ?? && 1==ps.cookType>
+				           <#assign suggest = "${ps.suggest}">
+				        </#if>
+				        <#if ps.isSale?? && 0==(ps.isSale) && weekDay==(ps.saleDay)>
+				           <#assign saleType = "0">
+				           <#assign salePrice = "${ps.salePrice?string('######################.##')}">
+				        <#elseif ps.isDis?? && 0==ps.isDis && ps.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < ps.endTime?time("HH:mm") && 0 < ps.disNum> 
+				           <#assign saleType = "1">
+				           <#assign salePrice = "${ps.disPrice?string('######################.##')}"> 
+					    </#if>
+						<li class="all-foods center" style="padding:0">
+							<ul class="clearFix">
+								</#if>
+								<li class="fl"><img src="${ps.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/dinner/shopcbdetail.do?cookbooksId=${ps.cookbooksId}'>
+									<p class="name">
+									   <#if ps.cookName?length < 8>${ps.cookName}<#else>${ps.cookName?substring(0,8)}...</#if>
+									</p>
+									<p class="price">
+										<#if 0 <= saleType?number>
+										    <span class="new-price">¥${salePrice}</span>&nbsp;<span class="last-price">¥${ps.price}</span>
+										<#else>
+										    <span class="new-price">¥${ps.price}</span>
+										</#if>
+									</p></li> <#if 1==ps_index%2>
+							</ul>
+						</li></#if> </#list>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</#if>
+	</div>
+	<div class="shade none"></div>
+	<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num"
+					class="num">0</span></a> <span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+			</div>
+	</div>
+	<div class="food-choice-list">
+		<ul id="cart"></ul>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/zepto.touchwipe.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/dinner/cart.js"></script>
+<script type="text/javascript"> 
+
+	function customLike(){
+		var _shopId = $("a#customlike").attr("data-shop") ;   
+    	var _opt = $("a#customlike").attr("data-opt"); 
+    	$.post("/index/near/customlike.do" , 
+    			{goodsId:_shopId,opt:_opt,likeType:0} , 
+    			function(data){     
+    				if(data==="2"){alert("请先登陆");} 
+    				else if(data ==="0"){alert("收藏失败")} 
+    				else{
+    					$("a#customlike").attr("data-opt",(_opt==0?1:0)); 
+    				} 
+    				if($("a#customlike").attr("data-opt")==0){
+    		            $("a#customlike").removeClass("colle_active");
+    		        }else{
+    		            $("a#customlike").addClass("colle_active");
+    		        }  
+    	}) ;  
+	}  
+
+   $(function() {
+	   $("#search").click(function(){
+		   window.location.href="/index/dinner/entershop.do?shopId=${shop.shopId}&value="+$("#searchVal").val()+"&cooktype="+$("#cooktype").val();
+	   });
+   });
+    $(function() {
+        /******轮换广告*****/
+        ~function() {
+            $('.wipe-list-ul').each(function() {
+                var tabins = $(this).tabwipe({
+                    done_process : 0.4, //移动超过40%则跳转
+                    ani_time : 500, //动画切换时间
+                    max_speed : 800, //滑屏速度超过800dip跳转
+                    is_circle : true, //循环滚动
+                    callback : function(index) { //切换回调
+                    }
+                }).interval(5000);
+            });
+        }();
+        
+        dinner();
+    });
+</script>
+</html>

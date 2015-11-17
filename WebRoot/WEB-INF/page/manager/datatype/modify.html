@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<link type="text/css" href="/dist/js_ztree/css/zTreeStyle.css" rel="stylesheet">
+ 
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+ 
+
+</head>
+<body> 
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id="myform" name="myform"> 
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="80">分类</td>
+							<td>
+								<input type="hidden" name="typeId" value="${Request.cbbean.typeId}">
+								<select name="parentId" style="width:70%">
+									<option value="0">主类</option> 
+									<#if Request.beans ??>
+										<#list beans as bean> 
+											<#if bean.typeId == Request.cbbean.parentId>
+							　　　　　  			<option value="${bean.typeId}" selected="selected">${bean.typeName}</option> 
+											<#else>
+												<option value="${bean.typeId}">${bean.typeName}</option> 
+											</#if>
+							　　　 		 </#list> 
+									</#if> 
+	                            </select>	
+							</td>
+						</tr>  
+						<tr>
+							<td width="80">类型名称</td>
+							<td> 
+								<input type="text" size="30" value="${Request.cbbean.typeName}" style="width:70%" class="input-text" name="typeName">
+							</td>
+						</tr> 
+					</tbody>
+				</table>  
+				<div class="ds_dialog_buttons">
+				   <a onclick="validate()" class="ds_dialog_yess"><span>确定</span></button> 
+				   </a>
+				 </div>
+			</form>
+		</div>
+
+		<!--　jquery 引入　-->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script> 
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js" type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css" rel="stylesheet">
+ 
+		<script> 
+			function validate(){ 
+			    var tip = tt.validate() ;   
+			  	if(tip === true){ 
+			  		 $.post("/manager/datatype/modify.do",
+			  				{
+			  					typeId: $("input[name='typeId']").val() , 
+			  					parentId: $("select[name='parentId']").val() , 
+			  					typeName: $("input[name='typeName']").val()
+			  				},function(result){
+			  			if(result === "1") top.tip("操作提示" , "保存成功 " , "success"); 
+			  			else top.tip("操作提示" , "保存失败 " , "success");
+		  			 });  
+			  	} 
+			} 
+		</script>
+		<script id="talent_script">
+    		tt.vf.req.add("parentId","typeName");    
+		</script>
+
+	</div>
+</body>
+</html>
+

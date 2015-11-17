@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<script>
+	if (top.dslog) {
+		top.dslog.close();
+	}
+	if ("1" == '${resultCode}') {
+		
+		top.tip("操作提示", "操作成功 ", "success");
+	} else { 
+		top.tip("操作提示", "操作失败 ", "error");
+	}
+</script>

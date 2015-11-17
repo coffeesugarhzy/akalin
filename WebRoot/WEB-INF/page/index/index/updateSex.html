@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta content="width=640,target-densitydpi=320, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>修改性别</title>
+<link rel="stylesheet" type="text/css" href="/dist/css/myHead.css" />
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+</head>
+<script type="text/javascript">
+	function commitData() {
+		var mSpan = $('#mSpan').prop('className');
+		var sex;
+		if ("foot_cion select" === mSpan) {
+			sex = 0;
+		} else {
+			sex = 1;
+		}
+		$.ajax({
+			url : '/index/index/doUpdateSex.do',
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				'sex' : sex
+			},
+			success : function(data) {
+				alert("操作成功");
+				location.href = "/index/index/myData.do";
+			}
+		});
+	}
+	$(function() {
+		<#if Session.loginCustomer.customSex??>
+		var sex = ${Session.loginCustomer.customSex};
+		if (0 === sex) {
+			$('#mDiv').prop("className", "price phone text");
+			$('#mSpan').prop("className", "foot_cion select");
+			$('#wDiv').prop("className", "price phone");
+			$('#wSpan').prop("className", "foot_cion select no_select");
+		} else {
+			$('#mDiv').prop("className", "price phone");
+			$('#mSpan').prop("className", "foot_cion select no_select");
+			$('#wDiv').prop("className", "price phone text");
+			$('#wSpan').prop("className", "foot_cion select");
+		}
+		</#if>
+	});
+</script>
+<body>
+	<div class="header">
+		<div class="file_cion header_back">
+			<a href="javascript:history.back();"></a>
+		</div>
+		<div class="header_title">修改性别</div>
+		<div class="go">
+			<a href="javascript:commitData();">提交</a>
+		</div>
+	</div>
+	<form id="myForm" method="post">
+		<div class="content">
+			<div class="remaining">
+				<div class="price_name">男</div>
+				<div class="price phone text" id="mDiv">
+					<span class="foot_cion select" id="mSpan"></span>先生
+				</div>
+			</div>
+			<div class="remaining">
+				<div class="price_name">女</div>
+				<div class="price phone" id="wDiv">
+					<span class="foot_cion select no_select" id="wSpan"></span>女士
+				</div>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">
+		$(".remaining")
+				.on(
+						"click",
+						function() {
+							$("#age")
+									.val(
+											$.trim($(this).find(".price_name")
+													.text()) == "女" ? "女" : "男");
+							$(".remaining span").addClass("no_select");
+							$(".remaining .price").removeClass("text");
+							$(this).find("span").removeClass("no_select");
+							$(this).find(".price").addClass("text");
+						});
+	</script>
+</body>
+</html>

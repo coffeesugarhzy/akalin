@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>关于邻卖</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+	<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="邻卖网">
+<meta content="email=no" name="format-detection" />
+<meta name="full-screen" content="yes">
+<meta name="browsermode" content="application">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
+<meta content="telephone=no" name="format-detection" />
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<link rel="stylesheet" href="/dist/css/style.css">
+
+</head>
+<body class="bg-gray">
+	<div class="contents pad-t-44">
+		<div class="header">
+           <h1 class="page-head clearFix">
+				<a href="javascript:history.back();"  class="fl back"></a>
+				 <span class="shop-name" style="margin-left:-85px;">关于邻卖</span>
+			</h1>
+		</div>
+		<div class="mine-oper">
+
+			<div class="oper-info-module">
+			  <a href="/index/index/msg.do">意见反馈<i class="right-ico"></i></a> 
+			</div>
+			<div class="oper-info-module">
+				<a class="clearFix" href="tel:0771-2359500">客服电话<span
+					class="phone-num fr">0771-2359500</span><i
+					class="right-ico"></i></a>
+			</div>
+			<div class="oper-info-module">		
+			   <a >版本信息
+					<span class="phone-num fr"><span style="margin-left:15px;">邻卖 v1.2.1</span></span><i
+					class="right-ico"> </i>
+				</a> 
+			</div>
+			<div class="oper-info-module">	
+				<a href="/index/index/intro.do">邻卖用户协议<i
+					class="right-ico"></i></a>
+			</div>
+
+		</div>
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s" href="/index/index/toIndex.do"><i></i>
+						<p>商品</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>店铺</p></a></li> 
+				<li><a class="w" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var hasTouch = 'ontouchstart' in window;
+		var START_EV = hasTouch ? 'touchstart' : 'mousedown';
+		var MOVE_EV = hasTouch ? 'touchmove' : 'mousemove';
+		var END_EV = hasTouch ? 'touchend' : 'mouseup';
+		$(".mine-oper a").on(START_EV, function() {
+		});
+	})
+</script>
+</html>

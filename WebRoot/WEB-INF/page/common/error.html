@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>操作失败</title>
+<style type="text/css">
+body {
+	padding-top: 60px;
+}
+
+a {
+	text-decoration: none;
+	color: blue;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body style="text-align: center;">
+	<div>
+		<img alt="操作失败！" src="../../images/failure.png">
+	</div>
+	<div style="color:#000000;font-weight: bold;font-size: 2em;">操作失败！</div>
+	<div style="color:#ff0000;font-weight: bold;font-size: 2em;">提示：
+		<#if Request.error??>${Request.error}</#if></div>
+	<#if Request.url??>
+	<a href="${Request.url}"
+		style="color:#0000ff;font-weight: bold;font-size: 2em;">返回</a> <#else>
+	<a href="#" onclick="javascript:history.back();return false;"
+		style="color:#0000ff;font-weight: bold;font-size: 2em;">返回</a> </#if>
+</body>
+</html>

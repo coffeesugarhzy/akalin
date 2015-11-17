@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>编辑帐户</title>
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<body>
+	<!-- <div class="subnav">
+		<div class="content-menu ib-a blue line-x">
+			<a href="javascript:;" onClick="javascript :history.back(-1);"
+				class="add fb"><em>返回</em> </a>
+		</div>
+	</div> -->
+	<div class="pad-10">
+		<div class="common-form">
+			<form id="myForm" method="post"
+				action="/manager/user/update.do?id=${Request.user.userId}"
+				name="myForm" enctype="multipart/form-data" target="hidden_frame">
+				<fieldset>
+					<legend> 基本信息 </legend>
+					<table width="100%" class="table_form">
+						<tbody>
+							<tr>
+								<td width="110">角色</td>
+								<td><select name="roleId" style="width: auto;" id="roleId">
+										<#if Request.list??> <#list Request.list as l>
+										<option value="${l.roleId}">${l.roleName}</option></#list>
+										</#if>
+								</select>
+								<input type="hidden" id="userType" name="userType" value="0"/>
+								<input type="hidden" id="isSysuser" name="isSysuser" value="${Request.user.isSysuser}"/>
+								</td>
+							</tr>
+							<tr>
+								<td>帐户名称</td>
+								<td><input type="text" style="width: 200px;"
+									class="input-text" name="userName" maxlength="64"
+									value="${Request.user.userName}"></td>
+							</tr>
+							<tr>
+								<td width="80">密码</td>
+								<td><input type="password" style="width: 200px;"
+									class="input-text" name="loginPassword" maxlength="36"></td>
+							</tr>
+							<tr>
+								<td width="80">登录名</td>
+								<td><input type="text" style="width: 200px;"
+									class="input-text" name="loginName" maxlength="36"
+									value="${Request.user.loginName}"></td>
+							</tr>
+							<tr>
+								<td>联系方式</td>
+								<td><input type="text" style="width: 150px;"
+									class="input-text" name="telphone" maxlength="20"
+									value="${Request.user.telphone}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+
+				<div class="bk15"></div>
+				<div class="ds_dialog_buttons">
+					<a onclick="validate()" class="ds_dialog_yess"><span>确定</span></a>
+				</div>
+			</form>
+			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+		</div>
+
+		<!--　jquery 引入　-->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js"
+			type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css"
+			rel="stylesheet">
+
+		<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+  
+		<script type="text/javascript">
+			$(function() {
+				$('#isSysuser').val(${Request.user.isSysuser});
+				$('#userType').val(${Request.user.userType});
+				$('#roleId').val('${Request.user.userRole.roleId}');
+			});
+			function validate() {
+				if (!tt.validate()) {
+					return false;
+				}
+				$('#myForm').submit();
+			}
+		</script>
+		<script id="talent_script">
+			tt.vf.req.add("roleId", "userName", "loginName",
+					 "telphone");
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>添加广告</title>
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+</head>
+<style>
+.leftBox{float:left;}
+.rightBox{float:right;} 
+.clear{clear:both;}
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(http://www.jq22.com/demo/jquery-fxk20150727/images/switch.gif) repeat-x; display: block; float: left; }
+.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; }
+.cb-enable span { background-position: left -90px; padding: 0 10px; }
+.cb-disable span { background-position: right -180px;padding: 0 10px; }
+.cb-disable.selected { background-position: 0 -30px; }
+.cb-disable.selected span { background-position: right -210px; color: #fff; }
+.cb-enable.selected { background-position: 0 -60px; }
+.cb-enable.selected span { background-position: left -150px; color: #fff; }
+.switch label { cursor: pointer; }
+</style>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<div class="subnav">
+			 
+				<div class="content-menu ib-a blue line-x">
+				    <div class="leftBox">
+				      <#if shop??>
+						 <a class="add fb" onclick="setEditView()"><em
+							id="editA">编辑 </em></a>&nbsp;&nbsp; <a class="add fb" id="saleA"
+							onclick="top.dsIframe('限时优惠 [${shop.shopName}]','/manager/shop/toDiscount.do?id=${shop.shopId}',550,230)"><em>限时优惠
+						</em></a>&nbsp;&nbsp; <a class="add fb" id="fullA"
+							href="/manager/shop/updateStatus.do?id=${shop.shopId}"
+							target="submitFrame"><em><#if
+								0==shop.isFull>座位已满<#else>座位未满</#if></em></a>
+					  <#else>
+					      <a class="add fb" onclick="javascript:document.getElementById('myform').style.display=''"><em>添加店铺</em></a>
+					</#if>		
+				    </div>
+				    <#if shop??>
+						<div class="rightBox">
+						  <label style="margin-right:5px;color:#444;">商铺状态： </label>
+						  <div class="rightBox switch">
+						  <#if shop.online??>
+		                        <#if 1==shop.online> 
+							     <label class="cb-enable selected"><span>在线</span></label>
+								 <label class="cb-disable "><span>离线</span></label>
+								<#else>
+							     <label class="cb-enable"><span>在线</span></label>
+								 <label class="cb-disable selected"><span>离线</span></label>
+								</#if>
+							<#else>
+							     <label class="cb-enable"><span>在线</span></label>
+								 <label class="cb-disable selected"><span>离线</span></label>
+							</#if>
+							<!-- <input type="checkbox" id="online" class="checkbox" name="online"  style="display:none"/> -->
+						  </div>
+						</div>
+					</#if>
+					<div class="clear"></div>
+				</div>
+			  
+			</div>
+			<form id="myform" name="myform" method="post"
+				action="/manager/shop/addOrMod.do" enctype="multipart/form-data"
+				target="submitFrame" style="display:none">
+				<fieldset style="margin:10px">
+					<legend>店铺信息 </legend>
+					<table width="100%" class="table_form">
+						<tbody>
+							<tr>
+								<td width="100">店铺LOGO</td>
+								<td><#if shop?? && shop.logo??><img id=headImgView
+									src='${shop.logo}' width="120px" height="120px"
+									onclick="$('input#file').click()" /><#else><img id=headImgView
+									src='/dist/img/viewimage.jpg' width="120px" height="120px"
+									onclick="$('input#file').click()" /> </#if>
+									<div style="display:block">
+										<input type="file" id=file name=file capture="camera"
+											onchange="change('headImgView','file')" accept="image/*"
+											style="width:0px;height: 0px;" />
+									</div></td>
+							</tr>
+							<tr>
+								<td>店铺名称</td>
+								<td><input type="text" style="width: 300px;"
+									class="input-text" id=shopName name=shopName maxlength="15"
+									value="${(shop.shopName)!''}"> <input type="hidden"
+									id=shopId name=shopId value="${(shop.shopId)!''}">
+									<div id="usernameTip" class="onShow">请输入店铺名称!</div></td>
+							</tr>
+							<tr>
+								<td>店铺类型</td>
+								<td><select id="typeName" name="typeName"> <#if
+										dataTypes??><#list dataTypes as dts>
+										<option value="${dts.typeName}">${dts.typeName}</option>
+										</#list></#if>
+								</select></td>
+							</tr>
+							
+							<tr>
+								<td>基础配置</td>
+								<td><input type="checkbox" id=had name=had value="WIFI" />&nbsp;WIFI&nbsp;&nbsp;&nbsp;<input
+									type="checkbox" value="停车场" id=had name=had />&nbsp;停车场</td>
+							</tr>
+							<tr>
+								<td>是否可预订</td>
+								<td><input type="radio" value="0" id=isBook name=isBook
+									checked="true" />&nbsp;可预订&nbsp;<input type="radio" id=isBook
+									name=isBook value="1" />不可预订</td>
+							</tr>
+							<tr>
+								<td>联系人</td>
+								<td><input type="text" style="width: 150px;"
+									class="input-text" id=linkMan name=linkMan maxlength="12"
+									value="${(shop.linkMan)!''}">
+									<div id="usernameTip" class="onShow">请输入联系人!</div></td>
+							</tr>
+							<tr>
+								<td>联系电话</td>
+								<td><input type="text" style="width: 150px;"
+									class="input-text" id=telphone name=telphone maxlength="12"
+									value="${(shop.telphone)!''}">
+									<div id="usernameTip" class="onShow">请输入联系电话,电话号码格式如：13000000000或0772000000!</div></td>
+							</tr>
+							<tr>
+								<td>营业时间</td>
+								<td><input type="text" style="width: 200px;"
+									class="input-text" id=openTime name=openTime maxlength="18"
+									value="${(shop.openTime)!''}">
+									<div id="usernameTip" class="onShow">请输入营业时间!</div></td>
+							</tr>
+							<#if shop?? && shop.cost?? && shop.cost??>
+							<tr>
+								<td>人均消费</td>
+								<td><input type="text" style="width: 180px;"
+									class="input-text" id=cost name=cost maxlength="6"
+									value="${shop.cost?string('#####################.##')}">
+									<div id="usernameTip" class="onShow">必须输入数字!</td>
+							</tr>
+							<#else>
+							<tr>
+								<td>人均消费</td>
+								<td><input type="text" style="width: 180px;"
+									class="input-text" id=cost name=cost maxlength="6" value="0.00">
+									<div id="usernameTip" class="onShow">必须输入数字!</div></td>
+							</tr>
+							</#if>
+							<tr>
+								<td>餐台设置</td>
+								<td><table id="tab" style="background:#EEF3F7">
+										<tr>
+											<td width="100px">餐桌类型</td>
+											<td width="100px">容纳人数</td>
+											<td width="100px">餐桌数量</td>
+											<td width="50px"><a onclick="addtr()" href="#"><b>增加</b></a></td>
+										</tr>
+										<#if shop?? && shop.tableInfos??><#list shop.tableInfos as
+										tis>
+										<tr>
+											<td><input type='text' class='input-text'
+												name='tableName' id='tableName' maxlength='5'
+												style='width:80px' value="${(tis.tableName)!''}" /></td>
+											<td><input type='text' class='input-text'
+												name='tableVolume' id='tableVolume' maxlength='4'
+												style='width:80px' value="${(tis.tableVolume)!'0'}" /></td>
+											<td><input type='text' class='input-text'
+												name='tableNum' id='tableNum' maxlength='4'
+												style='width:80px' value="${(tis.tableNum)!'0'}" /></td>
+											<td><a href='#' onclick='javascript:delRow(this)'>删除</a>
+											</td>
+										</tr>
+										</#list></#if>
+									</table></td>
+							</tr>
+							<tr>
+								<td width="80">区域</td>
+								<td><select id="sheng" name="sheng" onchange="areaSelect(this.value,1)"><option
+											value="">请选择</option>
+								</select>（省）<select id="shi" name="shi" onchange="areaSelect(this.value,2)"><option value="">请选择</option>
+								</select>（市）<select id="ofAreaId" name="ofAreaId"><option
+											value="">请选择</option>
+								</select>（区）
+									<div id="usernameTip" class="onShow">请选择区域!</div></td>
+							</tr>
+							<tr>
+								<td width="80">店铺地址</td>
+								<td><input type="text" style="width: 300px;"
+									class="input-text" id=address name=address maxlength="127"
+									value="${(shop.address)!''}">
+									<div id="usernameTip" class="onShow">请输入店铺地址!</div></td>
+							</tr>
+							<tr>
+								<td valign="top">店铺介绍</td>
+								<td><textarea id="remark" name="remark" style="width:40%">${(shop.remark)!''}</textarea></td>
+							</tr>
+							<#if shop?? && shop.longitude?? && shop.latitude??>
+							<tr>
+								<td>地图</td>
+								<td>定位地址:<input type="text" style="width: 200px;"
+									class="input-text" id="text_" maxlength="127">&nbsp;&nbsp;经度:<input
+									type="text" class="input-text" id=longitude name=longitude
+									readOnly="true" style="width: 100px;"
+									value="${shop.longitude?string('###############.##########')}">纬度:<input
+									type="text" class="input-text" id=latitude name=latitude
+									readOnly="true" style="width: 100px;"
+									value="${shop.latitude?string('###############.##########')}"><a
+									onclick="searchByStationName()" class="ds_dialog_yess"><span>定位</span></a>
+								</td>
+							</tr>
+							<#else>
+							<tr>
+								<td>地图</td>
+								<td>定位地址:<input type="text" style="width: 200px;"
+									class="input-text" id="text_" maxlength="127">&nbsp;&nbsp;经度:<input
+									type="text" class="input-text" id=longitude name=longitude
+									readOnly="true" style="width: 100px;" value="0.00">纬度:<input
+									type="text" class="input-text" id=latitude name=latitude
+									readOnly="true" style="width: 100px;" value="0.00"><a
+									onclick="searchByStationName()" class="ds_dialog_yess"><span>定位</span></a>
+								</td>
+							</tr>
+							</#if>
+							<tr>
+								<td>&nbsp;</td>
+								<td><div id="container"
+										style="width: 40%;height: 400px;border: 1px solid gray;overflow:hidden;">
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<div class="ds_dialog_buttons" style="text-align:left;">
+					<a onclick="validate()" class="ds_dialog_yess"><span>提交店铺</span></a>
+				</div>
+			</form>
+			<#if shop??>
+			<fieldset id="shopDetail" style="margin:10px">
+				<legend>店铺信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">店铺LOGO</td>
+							<td><img id=headImgView src='${(shop.logo)!""}'
+								width="120px" height="120px" /></td>
+						</tr>
+						<tr>
+							<td>店铺名称</td>
+							<td>${(shop.shopName)!''}</td>
+						</tr>
+						<tr>
+							<td>店铺类型</td>
+							<td>${(shop.typeName)!''}</td>
+						</tr>
+						<tr>
+							<td>基础配置</td>
+							<td>${(shop.had)!''}</td>
+						</tr>
+						<tr>
+							<td>是否可预订</td>
+							<td><#if 0 == shop.isBook>可预订<#else>不可预订</#if></td>
+						</tr>
+						<tr>
+							<td>联系人</td>
+							<td>${(shop.linkMan)!''}</td>
+						</tr>
+						<tr>
+							<td>联系电话</td>
+							<td>${(shop.telphone)!''}</td>
+						</tr>
+						<tr>
+							<td>营业时间</td>
+							<td>${(shop.openTime)!''}</td>
+						</tr>
+						<tr>
+							<td>人均消费</td>
+							<td>${(shop.cost)!''}</td>
+						</tr>
+						<#if shop.isDis?? && 0 == shop.isDis>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='green'>已开启/优惠时段：${(shop.beginTime)!''}~${(shop.endTime)!''}</font></td>
+						</tr>
+						<tr>
+							<td>优惠内容</td>
+							<td><font color='green'>${(shop.disContent)!''}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<tr>
+							<td>餐台信息</td>
+							<td><table style="background:#EEF3F7">
+									<tr>
+										<td width="100px">餐桌类型</td>
+										<td width="100px">容纳人数</td>
+										<td width="100px">餐桌数量</td>
+									</tr>
+									<#if shop.tableInfos??><#list shop.tableInfos as tis>
+									<tr>
+										<td>${(tis.tableName)!''}</td>
+										<td>${(tis.tableVolume)!'0'}</td>
+										<td>${(tis.tableNum)!'0'}</td>
+									</tr>
+									</#list></#if>
+								</table></td>
+						</tr>
+
+						<tr>
+							<td>经度/纬度</td>
+							<td>${shop.longitude?string("###############.##########")}/${shop.latitude?string("###############.##########")}</td>
+						</tr>
+						<tr>
+							<td width="80">区域</td>
+							<td id="areaName"></td>
+						</tr>
+						<tr>
+							<td>店铺地址</td>
+							<td>${(shop.address)!''}</td>
+						</tr>
+						<tr>
+							<td>店铺介绍</td>
+							<td>${(shop.remark)!''}</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			</#if>
+			<iframe id="submitFrame" name="submitFrame" style="display:none"></iframe>
+		</div>
+		<!--　jquery 引入　-->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js"
+			type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css"
+			rel="stylesheet">
+		<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		<script charset="utf-8" src="/dist/shop/shop.js"></script>
+		<!-- 百度地图 -->
+		<script type="text/javascript"
+			src="http://api.map.baidu.com/api?v=1.3"></script>
+		<script type="text/javascript">
+			parent.document.getElementById("curPlace").innerHTML = "基础功能>>店铺设置";
+			var map = new BMap.Map("container");
+			map.centerAndZoom("柳州", 13);
+			map.enableDragging(); //启用地图拖拽事件，默认启用(可不写)
+			map.enableScrollWheelZoom(); //启用地图滚轮放大缩小
+			map.enableDoubleClickZoom(); //启用鼠标双击放大，默认启用(可不写)
+			map.enableKeyboard(); //启用键盘上下左右键移动地图
+			map.addEventListener("click", function() {
+				var center = map.getCenter();
+			});
+			var localSearch = new BMap.LocalSearch(map);
+			localSearch.enableAutoViewport(); //允许自动调节窗体大小
+			function searchByStationName() {
+				map.clearOverlays(); //清空原来的标注
+				var keyword = document.getElementById("text_").value;
+				localSearch
+						.setSearchCompleteCallback(function(searchResult) {
+							var poi = searchResult.getPoi(0);
+							if (poi != undefined) {
+								document.getElementById("longitude").value = poi.point.lng;
+								document.getElementById("latitude").value = poi.point.lat;
+
+								map.centerAndZoom(poi.point, 16);
+								var marker = new BMap.Marker(new BMap.Point(
+										poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+								map.addOverlay(marker);
+								var content = document.getElementById("text_").value
+										+ "<br/><br/>经度："
+										+ poi.point.lng
+										+ "<br/>纬度：" + poi.point.lat;
+								var infoWindow = new BMap.InfoWindow(
+										"<p style='font-size:14px;'>" + content
+												+ "</p>");
+								marker.addEventListener("click", function() {
+									this.openInfoWindow(infoWindow);
+								});
+							} else {
+								// 创建地址解析器实例
+								var myGeo = new BMap.Geocoder();
+								// 将地址解析结果显示在地图上,并调整地图视野
+								myGeo
+										.getPoint(
+												keyword,
+												function(point) {
+													if (point) {
+														document
+																.getElementById("longitude").value = poi.point.lng;
+														document
+																.getElementById("latitude").value = poi.point.lat;
+
+														map.centerAndZoom(
+																point, 16);
+														map
+																.addOverlay(new BMap.Marker(
+																		point));
+													}
+												}, "柳州市");
+							}
+						});
+				localSearch.search(keyword);
+			}
+
+			function initSet() {
+
+				var shop = "${(shop)!''}";
+				if ("" == shop) {
+					setArea("");
+					return;
+				} else {
+					setArea("${(shop.ofAreaId)!''}");
+				}
+
+				var typeName = "${(shop.typeName)!''}";
+				if ("" != typeName) {
+					var typeNames = document.getElementById("typeName").options;
+					for ( var i = 0, len = typeNames.length; i < len; i++) {
+						if (typeName == typeNames[i].value) {
+							typeNames[i].selected = true;
+							break;
+						}
+					}
+				}
+
+				var isBook = "${(shop.isBook)!''}";
+				var isBooks = document.getElementsByName("isBook");
+				for ( var i = 0, len = isBooks.length; i < len; i++) {
+
+					if (isBook == isBooks[i].value) {
+						isBooks[i].checked = true;
+						break;
+					}
+				}
+
+				var hadArr = "${(shop.had)!''}".split(',');
+				var hads = document.getElementsByName("had");
+				for ( var i = 0, len = hads.length; i < len; i++) {
+					for ( var j = 0, len1 = hadArr.length; j < len1; j++) {
+						if (hadArr[j] == hads[i].value) {
+							hads[i].checked = true;
+							break;
+						}
+					}
+
+				}
+
+			}
+
+            function areaSelect(areaId,level){
+                var options = "<option value=''>请选择</option>";
+                if("" == areaId){
+                    if(level == 1){
+                        $("#shi").html(options);
+                        $("#ofAreaId").html(options);
+                    }
+                    if(level == 2){
+                        $("#ofAreaId").html(options);
+                    }
+                    return;
+                }
+                
+                var areas = ${areas};
+                var curLevel = 0;
+				for ( var i = 0, len = areas.length; i < len; i++) {
+					if (areaId == areas[i].parentId) {
+						options += "<option value="+areas[i].areaId+">"
+								+ areas[i].areaName + "</option>";
+					    curLevel = areas[i].level;
+					}
+				}
+
+                if(2 == curLevel){
+                    $("#shi").html(options);
+                }
+                
+                if(3 == curLevel){
+                    $("#ofAreaId").html(options);
+                }
+					
+			}
+
+			function setArea(areaId) {
+				var areas = ${areas};
+				var shengOption = "<option value=''>请选择</option>";
+				var shiOption = "<option value=''>请选择</option>";
+				var ofAreaIdOption = "<option value=''>请选择</option>";
+				if ("" == areaId) {
+					for ( var i = 0, len = areas.length; i < len; i++) {
+						if (1 == areas[i].level) {
+							shengOption += "<option value="+areas[i].areaId+">"
+									+ areas[i].areaName + "</option>";
+						}
+					}
+
+					$("#sheng").html(shengOption);
+				} else {
+					var shiId = getParentId(areas,areaId);
+					var shengId = getParentId(areas,shiId);
+					var areaName = "";
+					for ( var i = 0, len = areas.length; i < len; i++) {
+						if (1 == areas[i].level) {
+							if (shengId == areas[i].areaId) {
+								shengOption += "<option value="+areas[i].areaId+" selected>"
+										+ areas[i].areaName + "</option>";
+								areaName += areas[i].areaName+"&nbsp;&nbsp;";
+							} else {
+								shengOption += "<option value="+areas[i].areaId+">"
+										+ areas[i].areaName + "</option>";
+							}
+
+						}
+
+						if (shengId == areas[i].parentId) {
+							if (shiId == areas[i].areaId) {
+								shiOption += "<option value="+areas[i].areaId+" selected>"
+										+ areas[i].areaName + "</option>";
+								areaName += areas[i].areaName+"&nbsp;&nbsp;";
+							} else {
+								shiOption += "<option value="+areas[i].areaId+">"
+										+ areas[i].areaName + "</option>";
+							}
+						}
+
+						if (shiId == areas[i].parentId) {
+							if (areaId == areas[i].areaId) {
+								ofAreaIdOption += "<option value="+areas[i].areaId+" selected>"
+										+ areas[i].areaName + "</option>";
+								areaName += areas[i].areaName;
+							} else {
+								ofAreaIdOption += "<option value="+areas[i].areaId+">"
+										+ areas[i].areaName + "</option>";
+							}
+						}
+					}
+					$("#sheng").html(shengOption);
+					$("#shi").html(shiOption);
+					$("#ofAreaId").html(ofAreaIdOption);
+					$("#areaName").html(areaName);
+				}
+			}
+
+			function getParentId(areas, id) {
+				for (var i = 0, len = areas.length; i < len; i++) {
+					if (id == areas[i].areaId) {
+					   return areas[i].parentId;
+					}
+				}
+			}
+			
+			$(document).ready( function(){ 
+				var shopId=$('#shopId').val();
+                  if(shopId!=null&&shopId!=''){
+					$(".cb-enable").click(function(){	
+						$.post('/manager/shop/updateOnlineStatus.do', { shopId:shopId,online:1}, function (data) {
+							var parent = $(".cb-enable").parents('.switch');
+							$('.cb-disable',parent).removeClass('selected');
+							$(".cb-enable").addClass('selected');
+							//$('#online',parent).attr('checked', true);						
+						});
+					});
+					
+					$(".cb-disable").click(function(){
+						$.post('/manager/shop/updateOnlineStatus.do', { shopId:shopId,online:0}, function (data) {
+							var parent = $(".cb-disable").parents('.switch');
+							$('.cb-enable',parent).removeClass('selected');
+							$(".cb-disable").addClass('selected');
+							//$('#online',parent).attr('checked', false);				
+						});
+
+					});
+                  }
+			});
+
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>生鲜-限时抢购</title>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+    <link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+    <div class="contents" style="position:relative;padding:45px 0 0;">
+        <div class="header">
+            <h1 class="page-head clearFix">
+                <a href="javascript:window.history.back();" class="fl back"></a>
+                <span class="shop-name" style="padding-right:50px">生鲜-限时抢购</span>
+            </h1>
+        </div> 
+        <div class="foods-list flash-sale">
+            <ul id="dataArea">
+			</ul>
+			<ul id="pullup"></ul>
+        </div>
+        <div class="footer">
+            <ul class="clearFix">
+                <li><a class="s active" href="index.html"><i></i><p>首页</p></a></li>
+                <li><a class="f" href="#"><i></i><p>附近</p></a></li>
+                <li><a class="d" href="orders.html"><i></i><p>订单</p></a></li>
+                <li><a class="w" href="mine.html"><i></i><p>我的</p></a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/fresh/flashsale.js"></script>
+<script type="text/javascript">
+$(function(){
+    var hasTouch = 'ontouchstart' in window;
+    var START_EV = hasTouch ? 'touchstart' : 'mousedown';
+    var MOVE_EV = hasTouch ? 'touchmove' : 'mousemove';
+    var END_EV = hasTouch ? 'touchend' : 'mouseup';
+    $(".collect").on(END_EV,function(){
+        $(this).hasClass('current') ? $(this).removeClass('current') : $(this).addClass('current');
+    }); 
+});
+</script>
+</html>

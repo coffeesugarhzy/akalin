@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网-订单</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="contents" style="position:relative;padding-top: 40px;">
+		<div class="header">
+			<h1 class="page-head clearFix">
+				<a href="javascript:window.history.back();" class="fl back"></a> <span
+					class="shop-name" style="padding-right:50px">订单确认</span>
+			</h1>
+		</div>
+		<div class="pay-type">
+			<p class="name">
+				收货人：${Request.loginCustomer.customName!''}
+			</p>
+			<p class="name">
+				联系电话：${Request.loginCustomer.telphone!''}
+			</p>
+			<p class="address">
+				配送地址：
+				<#if addresses?? && 0<addresses?size >
+					<select id="address"  style="width:70%;padding:5px;border-radius:3px;border:none;background-color: #fff;font-size: 14px;color:#999999">
+					<#list addresses as addr>
+					   <#if 1 == addr.isDefault>
+						<option value="${addr.address}" selected>${addr.address}</option>
+					   <#else>
+						<option value="${addr.address}">${addr.address}</option>
+					   </#if>
+					</#list>
+					</select>
+				<#else>
+				<input type="text" id="address" value="" style="width: 70%;max-length:127;padding:5px;border-radius:2px;border: 1px solid #ccc; ;background-color: #fff;font-size: 14px;color:#999999" placeholder="请输入配送地址"/>
+                </#if> 
+			</p>
+		</div>
+		<div class="pay-type">
+			<p>
+				微信支付<span id="wxpay" class="checks checked"></span>
+			</p>
+			<p>
+				货到付款<span id="dpay" class="checks"></span>
+			</p>
+		</div>
+		<div class="pay-type">
+			<p>送货时间</p>
+			<p class="date-time clearFix">
+				<a href="javascript:void(0);" class="slide date"> <span
+					id="sendDay"></span> <span id="dayList" class="list"></span>
+				</a> <a href="javascript:void(0);" class="slide time"> <span
+					id="sendTime">16:00-18:00</span> <span class="list"> <span>08:00-10:00</span>
+						<span>10:00-12:00</span> <span>12:00-14:00</span> <span>14:00-16:00</span>
+						<span>16:00-18:00</span> <span>18:00-20:00</span> <span>20:00-22:00</span>
+				</span>
+				</a>
+			</p>
+		</div>
+		<div id="foodsListDiv" class="foods-list color-fff"></div>
+		<form id="form0" name="form0" method="post"
+			action="/index/dinner/submitOrdersec.do">
+			<input type="hidden" id="orderType" name="orderType" value="1" /> <input
+				type="hidden" id="payType" name="payType" /> <input type="hidden"
+				id="bookDate" name="bookDate" /> <input type="hidden" id="sendAddr"
+				name="sendAddr" />
+			<div class="message">
+				<textarea id="remark" name="remark" placeholder="若有特殊要求请留言。"></textarea>
+			</div>
+		</form>
+		<div class="shade none"></div>
+		<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num"
+					class="num">0</span></a> <span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:confirm();">&nbsp;提交订单</a>
+			</div>
+		</div>
+		<div class="food-choice-list">
+			<ul id="cart"></ul>
+		</div>
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s active" href="index.html"><i></i>
+						<p>首页</p></a></li>
+				<li><a class="f" href="#"><i></i>
+						<p>附近</p></a></li>
+				<li><a class="d" href="orders.html"><i></i>
+						<p>订单</p></a></li>
+				<li><a class="w" href="mine.html"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/dinner/orders.js"></script>
+<script type="text/javascript" src="/dist/dinner/cart.js"></script>
+</html>

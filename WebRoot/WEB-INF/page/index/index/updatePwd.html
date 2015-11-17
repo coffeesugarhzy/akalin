@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta content="width=640,target-densitydpi=320, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta content="default" name="apple-mobile-web-app-status-bar-style">
+<title>修改密码</title>
+<link rel="stylesheet" type="text/css" href="/dist/css/myHead.css" />
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/md5.js"></script>
+</head>
+<script type="text/javascript">
+	function commitData() {
+		var oldPasswd = $.trim($('#oldPassword').val());
+		var newPasswd = $.trim($('#newPassword').val());
+		var confirmNewPasswd = $.trim($('#confirmNewPasswd').val());
+		if ("" === oldPasswd || null === oldPasswd) {
+			alert("请输入原始密码");
+			return;
+		}
+		if ("" === newPasswd || null === newPasswd) {
+			alert("请输入密码");
+			return;
+		}
+		if ("" === confirmNewPasswd || null === confirmNewPasswd) {
+			alert("请输入确认密码");
+			return;
+		}
+		if (newPasswd !== confirmNewPasswd) {
+			alert("两次输入的密码不一致");
+			return;
+		}
+		$.ajax({
+			url : '/index/index/doUpdatePwd.do',
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				'newPasswd' : encrypt(newPasswd)
+			},
+			success : function(data) {
+				alert("操作成功");
+				location.href = "/index/index/myData.do";
+			}
+		});
+	}
+</script>
+<body>
+	<div class="header">
+		<div class="file_cion header_back">
+			<a href="javascript:history.back();"></a>
+		</div>
+		<div class="header_title">修改密码</div>
+		<div class="go">
+			<a href="javascript:commitData();">提交</a>
+		</div>
+	</div>
+	<form id="form0" method="post">
+		<div class="content">
+			<div class="pd_prompt">密码长度6-16，包含数字、字母、下划线</div>
+			<input type="password" class="input_text margin_t30"
+				name="oldPassword" id="oldPassword" placeholder="请输入原始密码"
+				maxlength="16" />
+			<div class="border">&nbsp;</div>
+			<input type="password" class="input_text margin_t30"
+				name="newPassword" id="newPassword" placeholder="请输入密码"
+				maxlength="16" />
+			<div class="border">&nbsp;</div>
+			<input type="password" class="input_text margin_t30"
+				name="confirmNewPasswd" id="confirmNewPasswd" placeholder="请再次输入密码"
+				maxlength="16" />
+			<div class="border">&nbsp;</div>
+		</div>
+	</form>
+</body>
+</html>

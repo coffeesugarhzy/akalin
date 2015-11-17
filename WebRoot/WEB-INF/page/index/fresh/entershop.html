@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>生鲜店铺</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="product_details" style="padding-bottom:40px">
+		<!--头部-->
+		<div class="header">
+			<div class="mask_layer"></div>
+			<div class="bg clearFix">
+				<img src="${shop.logo}" style="width:100%;max-width:640px" alt="" />
+			</div>
+			<a href="javascript:window.history.back();" class="go_back"> <img
+				src="/dist/images/go_back.png" alt="" />
+			</a>
+			<div class="title">
+				<span>${shop.shopName}</span>  
+				<#if Request.customLike ??>
+					<a href="javascript:customLike();" data-opt="1" id="customlike" data-shop="${Request.shop.shopId}" style="right:20px;" class="collect mark_a customlike colle_active"></a>  
+				<#else>
+					<a href="javascript:customLike();" data-opt="0" id="customlike" data-shop="${Request.shop.shopId}" style="right:20px;" class="collect mark_a customlike"></a>  
+				</#if>
+			</div>
+		</div>
+		<!--菜单-->
+		<div class="second-menu clearFix">
+			<ul>
+				<a href=""><li>首页</li></a>
+				<a href="/index/fresh/shopall.do?shopId=${shop.shopId}"><li>全部</li></a>
+				<a href="/index/fresh/shopnew.do?shopId=${shop.shopId}"><li>上新</li></a>
+				<a href="/index/fresh/shopdetail.do?shopId=${shop.shopId}"><li>简介</li></a>
+			</ul>
+		</div>
+		<div class="introduce clearFix" style="border-top-style:none">
+			<div class="search_shop">
+				<input type="text" id='searchVal' placeholder="本店搜索" /> <a
+					ontouchend="javascript:window.location.href='/index/fresh/shopall.do?shopId=${shop.shopId}&value='+searchVal.value;"></a>
+			</div>
+		</div>
+		<!--农副产品-->
+		<#if farms?? && 0<farms?size>
+			<a href="/index/farm/shopFarm.do?shopId=${shop.shopId}">
+				<p class="reviews_title marginTop20 like" style="position: relative">
+					<span class="sp2">农副产品</span><a class="mor_mu"></a>
+				</p>
+			</a>
+			<div class="banners" style="margin-top:10px">
+				<div class="carousel">
+					<div class="wipe-list">
+						<ul class="wipe-list-ul clearFix">
+							<#list farms as fss> 
+								<#if 0==fss_index%2>
+							<li class="all-foods center" style="padding:0">
+								<ul class="clearFix">
+							 </#if>
+							<li class="fl"><img src="${fss.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/farm/farmDetail.do?farmId=${fss.farmId}'>
+							<p class="name">
+							   <#if fss.farmName?length < 8>${fss.farmName}<#else>${fss.farmName?substring(0,8)}...</#if>
+							</p>
+							<p class="price">
+								<#if fss.isSale?? && 0==fss.isSale && weekDay==fss.saleDay>
+									<span class="new-price">¥${fss.salePrice}</span>&nbsp;<span
+										class="last-price">¥${fss.price}</span>
+								<#elseif fss.isDis?? && 0==fss.isDis && fss.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < fss.endTime?time("HH:mm") && 0 < fss.disNum> 
+									<span class="new-price">¥${fss.disPrice}</span>&nbsp;<span
+									class="last-price">¥${fss.price}</span>
+								<#else>
+									<span class="new-price">¥${fss.price}</span>
+								</#if>
+							</p></li>
+							<#if 1==fss_index%2></ul></li></#if> </#list>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</#if> 
+		<!--限时抢购-->
+		<#if flashsales?? && 0<flashsales?size>
+			<a href="/index/fresh/shopflash.do?shopId=${shop.shopId}">
+				<p class="reviews_title marginTop20 like" style="position: relative">
+					<span class="sp2">限时抢购</span><a class="mor_mu"></a>
+				</p>
+			</a>
+			<div class="banners" style="margin-top:10px">
+				<div class="carousel">
+					<div class="wipe-list">
+						<ul class="wipe-list-ul clearFix">
+							<#list flashsales as fss> <#if 0==fss_index%2>
+							<li class="all-foods center" style="padding:0">
+								<ul class="clearFix">
+									</#if>
+							<li class="fl"><img src="${fss.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/fresh/freshDetail.do?freshId=${fss.freshId}'>
+							<p class="name">
+							   <#if fss.freshName?length < 8>${fss.freshName}<#else>${fss.freshName?substring(0,8)}...</#if>
+							</p>
+							<p class="price">
+								<span class="new-price">¥${fss.disPrice}</span>&nbsp;<span
+									class="last-price">¥${fss.price}</span>
+							</p></li>
+							<#if 1==fss_index%2></ul></li></#if> </#list>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</#if> 
+		<#if sales?? && 0<sales?size>
+		<!--天天特价-->
+		<a href="/index/fresh/shopsales.do?shopId=${shop.shopId}">
+			<p class="reviews_title marginTop20 like">
+				<span class="sp2">天天特价</span><a class="mor_mu"></a>
+			</p>
+		</a>
+		<div class="banners" style="margin-top:10px">
+			<div class="carousel">
+				<div class="wipe-list">
+					<ul class="wipe-list-ul clearFix">
+					       <#list sales as ss> <#if 0==ss_index%2>
+						    <li class="all-foods center" style="padding:0">
+						    <ul class="clearFix">
+							</#if>
+							<li class="fl"><img src="${ss.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/fresh/freshDetail.do?freshId=${ss.freshId}'>
+							<p class="name">
+							   <#if ss.freshName?length < 8>${ss.freshName}<#else>${ss.cookName?substring(0,8)}...</#if>
+							</p>
+							<p class="price">
+								<span class="new-price">¥${ss.salePrice}</span>&nbsp;<span
+									class="last-price">¥${ss.price}</span>
+							</p></li>
+							<#if 1==ss_index%2></ul></li></#if> </#list>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</#if>
+		<#if plans?? && 0<plans?size>
+		<!--精品套餐-->
+		<a href="/index/fresh/shopplans.do?shopId=${shop.shopId}">
+			<p class="reviews_title marginTop20 like">
+				<span class="sp2">精品套餐</span><a class="mor_mu"></a>
+			</p>
+		</a>
+		<div class="banners" style="margin-top:10px">
+			<div class="carousel">
+				<div class="wipe-list">
+					<ul class="wipe-list-ul clearFix">
+						<#list plans as ps>
+						<#assign saleType = "-1">
+		                <#assign salePrice = "0">
+		                <#assign suggest = "">
+						<#if 0==ps_index%2>
+						<#if ps.cookType ?? && 1==ps.cookType>
+				           <#assign suggest = "${ps.suggest}">
+				        </#if>
+				        <#if ps.isSale?? && 0==(ps.isSale) && weekDay==(ps.saleDay)>
+				           <#assign saleType = "0">
+				           <#assign salePrice = "${ps.salePrice?string('######################.##')}">
+				        <#elseif ps.isDis?? && 0==ps.isDis && ps.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < ps.endTime?time("HH:mm") && 0 < ps.disNum> 
+				           <#assign saleType = "1">
+				           <#assign salePrice = "${ps.disPrice?string('######################.##')}"> 
+					    </#if>
+						<li class="all-foods center" style="padding:0">
+							<ul class="clearFix">
+								</#if>
+								<li class="fl"><img src="${ps.logo}" width="150px" height="150px" alt="" onclick=javascript:window.location.href='/index/fresh/freshDetail.do?freshId=${ps.freshId}'>
+									<p class="name">
+									   <#if ps.freshName?length < 8>${ps.freshName}<#else>${ps.freshName?substring(0,8)}...</#if>
+									</p>
+									<p class="price">
+										<#if 0 <= saleType?number>
+										    <span class="new-price">¥${salePrice}</span>&nbsp;<span class="last-price">¥${ps.price}</span>
+										<#else>
+										    <span class="new-price">¥${ps.price}</span>
+										</#if>
+									</p>
+								</li> <#if 1==ps_index%2>
+							</ul>
+						</li>
+						</#if> 
+						</#list>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</#if>
+	</div>
+	<div class="shade none"></div>
+	<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num"
+					class="num">0</span></a> <span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+			</div>
+	</div>
+	<div class="food-choice-list">
+		<ul id="cart"></ul>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/zepto.touchwipe.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/fresh/cart.js"></script>
+
+<script type="text/javascript">
+
+function customLike(){
+	var _shopId = $("a#customlike").attr("data-shop") ;   
+	var _opt = $("a#customlike").attr("data-opt"); 
+	$.post("/index/near/customlike.do" , 
+			{goodsId:_shopId,opt:_opt,likeType:0} , 
+			function(data){     
+				if(data==="2"){alert("请先登陆");} 
+				else if(data ==="0"){alert("收藏失败")} 
+				else{
+					$("a#customlike").attr("data-opt",(_opt==0?1:0)); 
+				} 
+				if($("a#customlike").attr("data-opt")==0){
+		            $("a#customlike").removeClass("colle_active");
+		        }else{
+		            $("a#customlike").addClass("colle_active");
+		        }  
+	}) ;  
+}  
+
+    $(function() {
+        /******轮换广告*****/
+        ~function() {
+            $('.wipe-list-ul').each(function() {
+                var tabins = $(this).tabwipe({
+                    done_process : 0.4, //移动超过40%则跳转
+                    ani_time : 500, //动画切换时间
+                    max_speed : 800, //滑屏速度超过800dip跳转
+                    is_circle : true, //循环滚动
+                    callback : function(index) { //切换回调
+                    }
+                }).interval(5000);
+            });
+        }();
+        
+        fresh();
+    });
+</script>
+</html>

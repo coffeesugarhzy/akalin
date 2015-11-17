@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网络-首页</title>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta http-equiv="Cache-Control" content="max-age=7200" /> 
+<link rel="stylesheet" href="/dist/css/style.css"> 
+</head>
+<body class="bg-gray">
+	<div class="contents">
+		<div class="header">
+			<h1 class="page-head">
+				<a href="javascript:window.history.back();" class="fl back"></a>邻卖网络<a
+					href="/index/index/position.do" class="fr position"><span
+					id="cityName mar-t-10" style=""></span><i></i> </a>
+			</h1>
+		</div>
+		<#include "inc/nav_head_menu.html">
+		<div class="banners">
+			<div class="carousel">
+				<div class="wipe-list">
+					<#if Request.adList??>
+					<ul class="wipe-list-ul clearFix" id="wipeUl">
+						<#list Request.adList as al>
+						<li><#if al.adUrl??> <a href="${al.adUrl}"><img
+								src="${al.adLogo}" /></a> <#else> <a href="#"><img
+								src="${al.adLogo}" /></a> </#if>
+						</li> </#list>
+					</ul>
+					</#if>
+				</div>
+				<div class="gcdt-list-cur gcdt-list-curo">
+					<div class="cur"></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+		</div>
+		<div class="news clearFix">
+			<div class="fl test">
+				<a href="/index/index/food.do">
+					<h2>美食体验</h2>
+					<div class="article">
+						<p class="fl">哇！免费试吃耶，欢迎大家来试吃！</p>
+						<img class="fr" src="/dist/images/pic_test.png" width="53" />
+					</div>
+				</a>
+			</div>
+			<div class="fr alley">
+				<a href="/index/index/snack.do">
+					<h2>巷口小吃</h2>
+					<div class="article">
+						<p class="fl">很多美食，通常是在深深巷口！</p>
+						<img class="fr" src="/dist/images/pic_alley.png" width="53" />
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="times-price">
+			<div class="buy-time">
+				<h2>限时抢购</h2>
+				<div class="timer" data-times="2019/3/20,23:20:12">
+					<span>0</span><span>8</span><span class="pointer">:</span><span>4</span><span>3</span><span
+						class="pointer">:</span><span>4</span><span>0</span>
+				</div>
+				<p>柳州各大美食，限时抢购！</p>
+			</div>
+			<a href="/index/index/shop.do"> <img class="time-imgs"
+				src="/dist/images/pic_timers.png" width="100%"> <img
+				class="rush" src="/dist/images/rush.png" width="40px" height="40px">
+			</a>
+		</div> 
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s active" href="/index/index/toIndex.do"><i></i>
+						<p>首页</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>附近</p></a></li>
+				<li><a class="d" href="/index/orders/ordershopsec.do"><i></i>
+						<p>订单</p></a></li>
+				<li><a class="w" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/dist/js/zepto.touchwipe.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript"> 
+	$(function() {
+		/******轮换广告*****/
+		~function() {
+			var tabins = $('#wipeUl').tabwipe(
+					{
+						done_process : 0.4, //移动超过40%则跳转
+						ani_time : 500, //动画切换时间
+						max_speed : 800, //滑屏速度超过800dip跳转
+						is_circle : true, //循环滚动
+						callback : function(index) { //切换回调
+							$('.gcdt-list-curo div').removeClass('cur').eq(
+									index).addClass('cur');
+						}
+					}).interval(5000);
+		}();
+		$('#cityName').html($.cookie('cityName'));
+	});
+
+	window.onload = function() {
+		$(".times-price").css({
+			height : $(".time-imgs").css("height")
+		});
+	}
+	window.onresize = function() {
+		$(".times-price").css({
+			height : $(".time-imgs").css("height")
+		});
+	}
+</script>
+
+</html>
