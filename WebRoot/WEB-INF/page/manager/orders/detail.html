@@ -1,0 +1,207 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<script charset="utf-8" src="/dist/js/editor.js"></script>
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="dist/css/ie8.css">
+<![endif]-->
+<style type="text/css"></style>
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<#if orders??>
+			<fieldset style="width:95%">
+				<legend>订单信息 </legend>
+				<table width="100%" class="table_form">
+					<#if 0 == orders.orderType>
+					<tbody>
+						<tr>
+							<td>店铺名称</td>
+							<td>${orders.shopName!''}</td>
+						</tr>
+						<tr>
+							<td>店铺联系方式</td>
+							<td>${orders.telphone!''}</td>
+						</tr>
+						<tr>
+							<td>订单号</td>
+							<td>${orders.ordersCode}</td>
+						</tr>
+						<tr>
+							<td>类型</td>
+							<td><#if 0 == orders.orderType>订桌</#if><#if 1 ==
+								orders.orderType>邻卖网</#if><#if 2 == orders.orderType>生鲜</#if><#if
+								3 == orders.orderType>农副产品</#if></td>
+						</tr>
+						<tr>
+							<td>预订人姓名</td>
+							<td>${orders.customerName!''}</td>
+						</tr>
+						<tr>
+							<td>预订人电话</td>
+							<td>${orders.customerPhone!''}</td>
+						</tr>
+						<tr>
+							<td>预订餐桌类型</td>
+							<td>${orders.tableName!''}/${orders.tableVolume!''}人桌</td>
+						</tr>
+						<tr>
+							<td>下单时间</td>
+							<td>${orders.addDate}</td>
+						</tr>
+						<tr>
+							<td>预约时间</td>
+							<td>${orders.bookDate}</td>
+						</tr>
+						<tr>
+							<td>订单状态</td>
+							<td><#if 0 == orders.status>待确认</#if><#if 1 ==
+								orders.status>已确认</#if><#if 2 == orders.status>已消费</#if><#if 3
+								== orders.status>已退单</#if></td>
+						</tr>
+						<#if 2 == orders.status>
+						<tr>
+							<td>消费金额</td>
+							<td>¥${orders.consumeMoney}</td>
+						</tr>
+						<tr>
+							<td>消费时间</td>
+							<td>${orders.updateDate}</td>
+						</tr>
+						</#if>
+						<#if 0< orders.returnMoney>
+						<tr>
+							<td>返利金额</td>
+							<td>¥${orders.returnMoney}</td>
+						</tr>
+						</#if>
+						<#if -1 == orders.returnMoney>
+						<tr>
+							<td>返利金额</td>
+							<td>¥0.00</td>
+						</tr>
+						</#if>
+						<tr>
+							<td>订单备注</td>
+							<td>${orders.remark!''}</td>
+						</tr>
+					</tbody>
+					<#else>
+					<tbody>
+						<tr>
+							<td>店铺名称</td>
+							<td>${orders.shopName}</td>
+						</tr>
+						<tr>
+							<td>店铺联系方式</td>
+							<td>${orders.telphone}</td>
+						</tr>
+						<tr>
+							<td>订单号</td>
+							<td>${orders.ordersCode}</td>
+						</tr>
+						<tr>
+							<td>类型</td>
+							<td><#if 0 == orders.orderType>订桌</#if><#if 1 ==
+								orders.orderType>邻卖网</#if><#if 2 == orders.orderType>生鲜</#if><#if
+								3 == orders.orderType>农副产品</#if></td>
+						</tr>
+						<tr>
+							<td>预订人姓名</td>
+							<td>${orders.customerName!''}</td>
+						</tr>
+						<tr>
+							<td>预订人电话</td>
+							<td>${orders.customerPhone!''}</td>
+						</tr>
+						<tr>
+							<td>下单时间</td>
+							<td>${orders.addDate}</td>
+						</tr>
+						<tr>
+							<td>预约时间</td>
+							<td>${orders.bookDate}</td>
+						</tr>
+						<tr>
+							<td>送货地址</td>
+							<td>${orders.sendAddr}</td>
+						</tr>
+						<tr>
+							<td>订单金额</td>
+							<td>¥${orders.orderMoney}</td>
+						</tr>
+						<#if 0< orders.returnMoney>
+						<tr>
+							<td>返利金额</td>
+							<td>¥${orders.returnMoney}</td>
+						</tr>
+						</#if>
+						<#if -1 == orders.returnMoney>
+						<tr>
+							<td>返利金额</td>
+							<td>¥0.00</td>
+						</tr>
+						</#if>
+						<#if 1 == orders.sendStatus>
+						<tr>
+							<td>送货时间</td>
+							<td>${orders.updateDate!''}</td>
+						</tr>
+						</#if> <#if 2 == orders.sendStatus>
+						<tr>
+							<td>收货时间</td>
+							<td>${orders.updateDate!''}</td>
+						</tr>
+						</#if>
+						<tr>
+							<td>订单状态</td>
+							<td><#if 3 == orders.status>已退单<#elseif 4 ==
+								orders.status>已退款
+								<#elseif 0 == orders.payType && 0 == orders.isPay && 0==orders.sendStatus>待付款
+								<#elseif (1 == orders.payType || 1 == orders.isPay) && 0==orders.sendStatus>待发货
+								<#elseif (1 == orders.payType || 1 == orders.isPay) &&	1==orders.sendStatus>已发货，待收货
+								<#elseif 2==orders.sendStatus>已收货</#if></td>
+						</tr>
+						<#if orders.orderdetailsext?? && 0 < orders.orderdetailsext?size>
+						<tr>
+							<td>订单内容</td>
+							<td>
+								<table style="width:100%">
+									<tr>
+										<td>名称</td>
+										<td>类型</td>
+										<td>原价</td>
+										<td>现价</td>
+										<td>数量</td>
+									</tr>
+									<#list orders.orderdetailsext as ods>
+									<tr>
+										<td>${ods.cookName}</td>
+										<td><#if 0 == ods.cookType>${ods.typeName}<#else>套餐</#if></td>
+										<td>${ods.price}</td>
+										<td><#if 0 <=
+											ods.saleType>${ods.salePrice}<#else>${ods.price}</#if></td>
+										<td>${ods.num}</td>
+									</tr>
+									</#list>
+								</table>
+							</td>
+						</tr>
+						</#if>
+						<tr>
+							<td>订单备注</td>
+							<td>${orders.remark!''}</td>
+						</tr>
+					</tbody>
+					</#if>
+				</table>
+			</fieldset>
+			</#if>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网-我的</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+	<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="邻卖网">
+<meta content="email=no" name="format-detection" />
+<meta name="full-screen" content="yes">
+<meta name="browsermode" content="application">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
+<meta content="telephone=no" name="format-detection" />
+<meta name="HandheldFriendly" content="true">
+<meta name="MobileOptimized" content="320">
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="contents" style="position:relative;padding:44px 0 0;">
+		<div class="header">
+			<h1 class="page-head">我的</h1>
+		</div>
+		<div class="mine-oper">
+			<div class="head">
+				<a class="head-portrait" href="/index/index/myData.do"> 
+					<#if Session.loginCustomer.customHead??>  
+						<span style="background: url('${Session.loginCustomer.customHead}') no-repeat 0 0 !important;background-size:80px !important" class="ico ico-active"></span> 
+					<#else> 
+						<span class="ico"></span> 
+					</#if> 
+					<span class="phone-num"> 
+						<#if Session.loginCustomer.customName??>
+							${Session.loginCustomer.customName}
+						<#else>
+							${Session.loginCustomer.telphone}
+						</#if>
+					</span>
+					<span class="right-ico"></span>
+				</a>
+				<!-- 
+				<div class="oper-btn clearFix">
+					<a class="fl" style="width: 49%;" href="/index/index/myData.do">信息管理</a> <a class="fl"
+						href="/index/index/myConsume.do">我的消费</a>
+				</div>
+				 -->
+			</div>
+			<div class="oper-info-module">
+				<a href="/index/index/systemInfo.do">我的购物车<i class="right-ico"></i></a>
+			</div>
+			
+			<div class="oper-info-module">
+			   <!--
+				<p class="clearFix">
+					余额<span class="fr">¥${Session.loginCustomer.balance}</span>
+				</p>
+				<p class="clearFix">
+					我的积分<span class="fr">未开通</span>
+				</p>
+				<!-- <a href="/index/index/coupon.do">我的优惠券<i class="right-ico"></i></a> -->
+				<a href="/index/index/myLike.do">我的收藏<i class="right-ico"></i></a>
+			</div>
+
+			<div class="oper-info-module"> 
+				<a href="/index/orders/ordertakeoutsec.do?status=1">我的订单<i class="right-ico"></i></a>
+			</div>
+			<div class="oper-info-module">
+				<a href="/index/index/systemInfo.do">关于邻卖<i class="right-ico"></i></a>
+			</div>
+			
+			<div class="oper-info-module"> 
+				<a href="/index/index/exit.do">退出登录<i class="right-ico"></i></a>
+			</div>
+		</div>
+		<div class="footer"> 
+			<ul class="clearFix">
+				<li><a class="s" href="/index/index/toIndex.do"><i></i>
+						<p>商品</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>店铺</p></a></li> 
+				<li><a class="w active" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var hasTouch = 'ontouchstart' in window;
+		var START_EV = hasTouch ? 'touchstart' : 'mousedown';
+		var MOVE_EV = hasTouch ? 'touchmove' : 'mousemove';
+		var END_EV = hasTouch ? 'touchend' : 'mouseup';
+		$(".mine-oper a").on(START_EV, function() {
+		});
+	})
+</script>
+</html>

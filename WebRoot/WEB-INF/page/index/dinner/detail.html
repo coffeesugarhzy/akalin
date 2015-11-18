@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网-商品详情</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="product_details">
+		<!--头部-->
+		<div class="header">
+			<div class="mask_layer"></div>
+			<div class="bg clearFix">
+				<img src="${cookbook.logo}" style="width:100%;max-width:640px"
+					alt="" />
+			</div>
+			<a href="javascript:window.history.back();" class="go_back"> <img
+				src="/dist/images/go_back.png" alt="" />
+			</a>
+			<div class="title">
+				<span>${cookbook.cookName}</span> 
+				<#if Request.customLike ??>
+					<a href="javascript:customLike();" data-opt="1" id="customlike" data-shop="${cookbook.cookbooksId}" style="right:20px;" class="collect mark_a customlike colle_active"></a>  
+				<#else>
+					<a href="javascript:customLike();" data-opt="0" id="customlike" data-shop="${cookbook.cookbooksId}" style="right:20px;" class="collect mark_a customlike"></a>  
+				</#if>
+			</div>
+		</div>
+		<!--订单详情-->
+		<div class="order_contents">
+			<ul>
+				<li class="sp1">
+				    <#assign saleType = "-1">
+				    <#assign salePrice = "0">
+				    <#assign suggest = "">
+				    <#if cookbook.cookType ?? && 1==cookbook.cookType>
+				      <#assign suggest = "${cookbook.suggest}">
+				    </#if>
+				    <#if cookbook.isSale?? && 0==(cookbook.isSale) && weekDay==(cookbook.saleDay)>
+				      <#assign saleType = "0">
+				      <#assign salePrice = "${cookbook.salePrice?string('######################.##')}">
+				      <span>￥${cookbook.salePrice}</span>元/<span>份</span>
+				    <#elseif cookbook.isDis?? && 0==cookbook.isDis && cookbook.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < cookbook.endTime?time("HH:mm") && 0 < cookbook.disNum> 
+				      <#assign saleType = "1">
+				      <#assign salePrice = "${cookbook.disPrice?string('######################.##')}"> 
+				      <span>￥${cookbook.disPrice}</span>元 / <span>份</span>
+					<#else> 
+					  <span>￥${cookbook.price}</span>元 / <span>份</span>
+					</#if>
+
+					 <a	class="sub" ontouchend="lessFunc('${cookbook.cookbooksId}');"></a>
+					 <span id="num${cookbook.cookbooksId}" class="food-num">0</span>
+					 <a	class="add" ontouchend="plusFunc('${cookbook.cookbooksId}','${cookbook.cookName}','${cookbook.logo}', '${cookbook.ofShopId}', '${cookbook.shopName}', '${cookbook.price?string('######################.##')}', '${saleType}','${salePrice}', '${suggest}')"></a>
+				</li>
+				<style>
+				 .last-price{font-size: 12px;text-decoration: line-through;}
+				</style>
+				<#if cookbook.isSale?? && 0==(cookbook.isSale) && weekDay==(cookbook.saleDay)>
+					<li><span class="sp2">原价 :</span>&nbsp;<span class="sp3 price last-price">￥${cookbook.price}元/<span>份</span></span></li>
+				</#if>
+				<#if 0==cookbook.cookType>
+				<li><span class="sp2">类型 :</span>&nbsp;<span class="sp3">${cookbook.typeName}</span></li>
+				<#else>
+				<li><span class="sp2">类型 :套餐</li>
+				<li><span class="sp2">建议就餐人数:${suggest}</li>
+				</#if>
+				<li><span class="sp2">精选自:</span>&nbsp;<span class="sp3">${cookbook.shopName}</span></li>
+			</ul>
+		</div>
+		<!-- <p class="reviews_title"><span class="sp2">累计评价</span>&nbsp;&nbsp;<span class="sp3">(1600)</span></p>
+    <div class="reviews clearFix">
+        <div class="photo">
+            <img src="/dist/images/user.png" alt=""/>
+        </div>
+        <div class="matter">
+            <ul>
+                <li><span class="name">小苹果</span><span class="time">2014-11-15 17:30</span></li>
+                <li><span class="taste">口味 :</span>
+                    <span class="start">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </span></li>
+                <li><span class="appraise">它没啥问题，来多次，除味道环境都喜欢。</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="reviews clearFix">
+        <div class="photo">
+            <img src="/dist/images/user.png" alt=""/>
+        </div>
+        <div class="matter">
+            <ul>
+                <li><span class="name">小苹果</span><span class="time">2014-11-15 17:30</span></li>
+                <li><span class="taste">口味 :</span>
+                    <span class="start">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </span></li>
+                <li><span class="appraise">了服务员培训，其它没啥问题，来多次，除味道环境都喜欢。除了服务员培训，其它没啥问题，来多次，除味道环境都喜欢。除了服务员培训，其它没啥问题，来多次，除味道环境都喜欢。除了服务员培训，其它没啥问题，来多次，除味道环境都喜欢。</span></li>
+            </ul>
+        </div>
+    </div>
+    <a href="" class="more">查看更多评价 >></a> -->
+		<!--商品详情-->
+		<p class="reviews_title marginTop">
+			<span class="sp2">商品详情</span>
+		</p>
+		<div class="product">
+			<div class="textarea">
+				<span>${cookbook.remarks}</span>
+			</div>
+		</div>
+		<!--商家介绍-->
+		<p class="reviews_title marginTop">
+			<span class="sp2">商家介绍</span>
+		</p>
+		<div class="introduce clearFix">
+			<div class="left">
+				<img src="${cookbook.shopLogo}" alt="" />
+			</div>
+			<div class="right" onclick="javascript:window.location='/index/near/map.do?shopId=${cookbook.ofShopId}'">
+				<p class="p1">${cookbook.shopName}</p>
+				<p class="p2">
+					<span>地址 :</span><span>${cookbook.address}</span>
+				</p>
+			</div>
+			<p class="fg"></p>
+			<div class="btn">
+				<a href="/index/dinner/entershop.do?shopId=${cookbook.ofShopId}"><em class="shop"></em>&nbsp;&nbsp;<span>进店逛逛</span></a>
+				<a href="tel:${cookbook.telphone}"><em class="phone"></em>&nbsp;&nbsp;<span>联系商家</span></a>
+			</div>
+			<!--优惠券
+			<div class="dollar clearFix">
+				<a href="">
+					<div class="left_d">
+						<p class="p1">￥30</p>
+						<p class="p2">满5元使用</p>
+					</div>
+				</a> <a href="">
+					<div class="left_d ">
+						<p class="p1">￥100</p>
+						<p class="p2">满30元使用</p>
+					</div>
+				</a> <a href="">
+					<div class="left_d">
+						<p class="p1">￥200</p>
+						<p class="p2">满50元使用</p>
+					</div>
+				</a>
+			</div>
+		</div>
+		<p class="reviews_title marginTop like">
+			<span class="sp2">猜你喜欢</span>
+		</p>-->
+		</div>
+		<div class="foods-list">
+			<!--<ul>
+				<li class="clearFix"><img class="fl"
+					src="/dist/images/food-test.jpg" width="70" height="70" alt="">
+					<p class="name">青椒炒牛肉</p>
+					<p class="intro">精选自：青衣小筑</p>
+					<p class="price">
+						<span class="new-price">¥22.0</span>&nbsp;<span class="last-price">¥32.0</span>
+					</p> <a class="sub" href="javascript:void(0);"></a> <span
+					class="food-num">0</span> <a class="add" href="javascript:void(0);"></a>
+				</li>
+			</ul>
+			-->
+		</div>
+		<div class="shade none"></div>
+		<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num"
+					class="num">0</span></a> <span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+			</div>
+		</div>
+		<div class="food-choice-list">
+			<ul id="cart">
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/dinner/cart.js"></script>
+<script type="text/javascript">
+function customLike(){
+	var _shopId = $("a#customlike").attr("data-shop") ;   
+	var _opt = $("a#customlike").attr("data-opt"); 
+	$.post("/index/near/customlike.do" , 
+			{goodsId:_shopId,opt:_opt,likeType:1} , 
+			function(data){     
+				if(data==="2"){alert("请先登陆");} 
+				else if(data ==="0"){alert("收藏失败")} 
+				else{
+					$("a#customlike").attr("data-opt",(_opt==0?1:0)); 
+				} 
+				if($("a#customlike").attr("data-opt")==0){
+		            $("a#customlike").removeClass("colle_active");
+		        }else{
+		            $("a#customlike").addClass("colle_active");
+		        }  
+	}) ;  
+} 
+    dinner();
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>邻卖网络-火爆小吃</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css">
+<style>
+.search-items-near li {
+	width: 33% !important;
+}
+
+.foods-list li p.name {
+	text-overflow: ellipsis;
+	width: 250px;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-left: 10px;
+}
+</style>
+</head>
+<body class="bg-gray">
+	<div class="contents" style="position:relative;padding-bottom:0;padding-top:45px;">
+		<div class="header">
+			<h1 class="page-head clearFix">
+				<a href="/index/index/table.do" class="fl back"></a> <span
+					class="shop-name left80">火爆小吃</span>
+				<!-- <span class="search-frame fr">
+					<input type="text" id="keyword" placeholder="请输入关键字"> <a
+					href="#">搜索</a>
+				</span> <a class="fr search" href="javascript:void(0)"></a> -->
+			</h1>
+		</div>
+		<div class="foods-list">
+			<ul id="dataArea">
+			</ul>
+			<ul id="pullUp"></ul>
+		</div>
+		<div class="shade none"></div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/index/hot.js"></script> 
+</html>

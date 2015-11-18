@@ -1,0 +1,152 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<script charset="utf-8" src="/dist/js/editor.js"></script>
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+<style>
+img {
+	max-width: 500px;
+}
+</style>
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<#if fresh??> <#if 0 == fresh.freshType>
+			<fieldset style="width:95%">
+				<legend>菜谱信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">菜谱LOGO</td>
+							<td><img src='${(fresh.logo)!""}' width="120px"
+								height="120px" /></td>
+						</tr>
+						<tr>
+							<td>菜谱名称</td>
+							<td>${(fresh.freshName)!""}</td>
+						</tr>
+						<tr>
+							<td>菜谱类型</td>
+							<td>${(fresh.typeName)!""}</td>
+						</tr>
+						<tr>
+							<td>单价（元）</td>
+							<td>${(fresh.price)!""}</td>
+						</tr>
+
+						<tr>
+							<td>制作时间（分钟）</td>
+							<td>${(fresh.makeTime)!""}</td>
+						</tr>
+						<tr>
+							<td>制作工艺</td>
+							<td>${(fresh.makeMethod)!""}</td>
+						</tr>
+						<#if fresh.isSale?? && 0 == fresh.isSale>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='green'>已开启/特价日：<script>document.write(getWeekName("${(fresh.saleDay)!''}"))</script>/特价价格（元）：${(fresh.salePrice)!''}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<#if fresh.isDis?? && 0 == fresh.isDis>
+						<tr>
+							<td>限时抢购</td>
+							<td><font color='green'>已开启/抢购时段：${(fresh.beginTime)!''}~${(fresh.endTime)!''}/抢购价格（元）：${(fresh.disPrice)!''}/抢购数量：${fresh.disNum}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<tr>
+							<td>配料和制作方法</td>
+							<td>${(fresh.operate)!""}</td>
+						</tr>
+						<tr>
+							<td>菜谱描述</td>
+							<td>${(fresh.remarks)!""}</td>
+						</tr>
+						<tr>
+							<td>增加时间</td>
+							<td>${(fresh.addDate)!""}</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			</#if> <#if 1 == fresh.freshType>
+			<fieldset style="width:95%">
+				<legend>套餐信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100">套餐LOGO</td>
+							<td><img src='${(fresh.logo)!""}' width="120px"
+								height="120px" /></td>
+						</tr>
+						<tr>
+							<td width="100">套餐名称</td>
+							<td>${(fresh.freshName)!""}</td>
+						</tr>
+						<tr>
+							<td>套餐价格（元）</td>
+							<td>${(fresh.price)!""}</td>
+						</tr>
+						<tr>
+							<td>建议就餐人数</td>
+							<td>${(fresh.suggest)!""}</td>
+						</tr>
+						<#if fresh.isSale?? && 0 == fresh.isSale>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='green'>已开启/特价日：<script>document.write(getWeekName("${(fresh.saleDay)!''}"))</script>/特价价格（元）：${(fresh.salePrice)!''}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>天天特价</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<#if fresh.isDis?? && 0 == fresh.isDis>
+						<tr>
+							<td>限时抢购</td>
+							<td><font color='green'>已开启/抢购时段：${(fresh.beginTime)!''}~${(fresh.endTime)!''}/抢购价格（元）：${(fresh.disPrice)!''}/抢购数量：${fresh.disNum}</font></td>
+						</tr>
+						<#else>
+						<tr>
+							<td>限时优惠</td>
+							<td><font color='gray'>未开启</font></td>
+						</tr>
+						</#if>
+						<tr>
+							<td>套餐内容</td>
+							<td>${(fresh.operate)!""}</td>
+						</tr>
+						<tr>
+							<td>套餐描述</td>
+							<td>${(fresh.remarks)!""}</td>
+						</tr>
+						<tr>
+							<td>增加时间</td>
+							<td>${(fresh.addDate)!""}</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			</#if> </#if>
+		</div>
+	</div>
+</body>
+</html>
+

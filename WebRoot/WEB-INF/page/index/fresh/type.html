@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>邻卖网络-生鲜类型列表</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css">
+<link rel="stylesheet" href="/dist/css/ext.css">
+</head>
+<body class="bg-gray">
+	<#if Request.type??> 
+		<input type="hidden"  name="type" value="${type}" /> 
+	<#else> 
+		<input type="hidden"  name="type" value="" /> 
+	</#if> 
+	<input type="hidden" name="weekday" value="${weekday}"/> 
+	<div class="contents" style="position:relative;padding-bottom:0;">
+		<div class="header">
+			<h1 class="page-head clearFix">
+				<a href="/index/fresh/index.do" class="fl back"></a> <span
+					class="shop-name"><#if Request.type??> ${type} - </#if>   生鲜</span> 
+					<span class="search-frame fr"> 
+					<input type="text" id='searchVals' name="keyword"  placeholder="请输入关键字"> 
+					<a onclick="searchKeyword(1)">搜索</a>
+				</span> <a class="fr search" ></a>
+			</h1>
+		</div>
+		<div class="search-items nav-tabs clearFix">
+			<ul class="clearFix">
+				<li class="fl current" data-class="classify"><a
+					href="javascript:void(0);">分类<i></i></a></li>
+				<li class="fl" data-class="cities"><a
+					href="javascript:void(0);">全城<i></i></a></li>
+				<li class="fl" data-class="hots"><a href="javascript:void(0);">热卖<i></i></a></li>
+				<li class="fl" data-class="price"><a href="javascript:void(0);">价格<i></i></a></li>
+			</ul>
+		</div>
+		<div class="classify tab-pane none clearFix">
+			<ul class="detail-info text-indent20 class1">
+				<li><a href="/index/fresh/sale.do">天天特价</a></li>    
+				<#if Request.beanList ??>
+        			<#list beanList as bean>
+						<li><a href="/index/fresh/type.do?type=${bean.typeName}&filter=type">${bean.typeName}</a></li>
+					</#list>
+				</#if>
+			</ul>
+		</div>
+		<div class="cities tab-pane none clearFix">
+			<ul class="detail-info class1">
+				<li><a href="javascript:filterQuery('8','城中区')">城中区</a></li>
+				<li><a href="javascript:filterQuery('8','柳南区')">柳南区</a></li>
+				<li><a href="javascript:filterQuery('8','柳北区')">柳北区</a></li>
+			</ul>
+		</div>
+		<div class="hots tab-pane none clearFix">
+			<ul class="detail-info class1">
+				<li><a href="javascript:filterQuery('4','hotsearch')">最热搜索</a></li>
+				<li><a href="javascript:filterQuery('5','hotcookbook')">最热菜谱</a></li>
+				<li><a href="javascript:filterQuery('6','hotplans')">最热套餐</a></li>
+			</ul>
+		</div>
+		<div class="price tab-pane none clearFix">
+			<ul class="detail-info class1">
+			    <li><a href="/index/fresh/type.do">价格从低到高</a></li>
+			    <li><a href="/index/fresh/type.do">价格从高到低</a></li> 
+				<li><a href="javascript:filterQuery('7','0')">¥ 0~30</a></li>
+				<li><a href="javascript:filterQuery('7','30')">¥ 30~50</a></li>
+				<li><a href="javascript:filterQuery('7','50')">¥ 50~100</a></li>
+				<li><a href="javascript:filterQuery('7','100')">¥ 100元以上</li>
+			</ul>
+		</div>
+		<div class="foods-list">
+			<ul id="dataArea"> 
+				<#if Request.freshList ??>
+					<#list freshList as fresh>
+						<li class='clearFix'>
+							<img class='fl' src='${fresh.logo}' width='70' height='70' alt=''>
+							<p class='name'>${fresh.freshName}</p>
+							<p class='intro'>精选自：${fresh.shopName}</p>
+							<p class='price'>  
+								<#if fresh.isSale ??>
+									<span class='new-price line-through'>¥${fresh.price}</span>&nbsp;
+									<span class='new-price'>¥${fresh.salePrice} </span> 
+								<#else>
+									<span class='new-price'>¥${fresh.price} </span>&nbsp; 
+								</#if>
+							</p>
+							<a class='sub' href='javascript:void(0);'></a>
+							<span class='food-num'>0</span>
+							<a class='add' href='javascript:void(0);'></a>
+						</li>
+					</#list>  
+				</#if>
+			</ul>
+			<ul id="pullup"><center></center></ul>
+		</div>
+		<div class="shade none"></div>
+		<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span class="num">55</span></a>
+				<span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.0</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:void(0);">&nbsp;选好了</a>
+			</div>
+		</div>
+		<div class="food-choice-list">
+			<ul>
+				<li class="shop-name clearFix"><span class="choice">精选自：</span>
+					<span class="name">青衣小筑</span> <a class="del fr"
+					href="javascript:void(0);">清除</a></li>
+				<li class="food"><span class="choice-ico"></span> <span
+					class="name">青椒炒牛肉</span> <span class="price">¥22.0</span> <a
+					class="sub" href="javascript:void(0);"></a> <span class="food-num">1</span>
+					<a class="add" href="javascript:void(0);"></a></li>
+				<li class="shop-name clearFix"><span class="choice">精选自：</span>
+					<span class="name">柳州饭店</span> <a class="del fr"
+					href="javascript:void(0);">清除</a></li>
+				<li class="food"><span class="choice-ico"></span> <span
+					class="name">糖醋排骨</span> <span class="price">¥15.0</span> <a
+					class="sub" href="javascript:void(0);"></a> <span class="food-num">1</span>
+					<a class="add" href="javascript:void(0);"></a></li>
+				<li class="food"><span class="choice-ico"></span> <span
+					class="name">凉拌菜</span> <span class="price">¥6.0</span> <a
+					class="sub" href="javascript:void(0);"></a> <span class="food-num">1</span>
+					<a class="add" href="javascript:void(0);"></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/js/touch.js"></script> 
+</html>

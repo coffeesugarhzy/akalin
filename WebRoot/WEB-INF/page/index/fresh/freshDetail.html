@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>生鲜- ${Request.fresh.freshName} 详情</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" href="/dist/css/style.css">
+</head>
+<body class="bg-gray">
+	<div class="product_details">
+		<!--头部-->
+		<div class="header">
+			<div class="mask_layer"></div>
+			<div class="bg clearFix">
+				<img src="${Request.fresh.logo}" style="width:100%;max-width:640px"
+					alt="" />
+			</div>
+			<a href="javascript:window.history.back();" class="go_back"> <img
+				src="/dist/images/go_back.png" alt="" />
+			</a>
+			<div class="title">
+				<span>${Request.fresh.freshName}</span> 
+				<#if Request.customLike ??>
+					<a href="javascript:customLike();" data-opt="1" id="customlike" data-shop="${Request.fresh.freshId}" style="right:20px;" class="collect mark_a customlike colle_active"></a>  
+				<#else>
+					<a href="javascript:customLike();" data-opt="0" id="customlike" data-shop="${Request.fresh.freshId}" style="right:20px;" class="collect mark_a customlike"></a>  
+				</#if>
+			</div>
+		</div>
+		<!--订单详情-->
+		<div class="order_contents">
+			<ul>
+				<li class="sp1">
+				    <#assign saleType = "-1">
+				    <#assign salePrice = "0">
+				    <#assign suggest = "">
+				    <#if Request.fresh.freshType ?? && 1==Request.fresh.freshType>
+				      <#assign suggest = "${Request.fresh.suggest}">
+				    </#if>
+				    <#if Request.fresh.isSale?? && 0==(Request.fresh.isSale) && weekDay==(Request.fresh.saleDay)>
+				      <#assign saleType = "0">
+				      <#assign salePrice = "${Request.fresh.salePrice?string('######################.##')}">
+				      <span>￥${Request.fresh.salePrice}</span>元/<span>份</span>
+				    <#elseif Request.fresh.isDis?? && 0==Request.fresh.isDis && Request.fresh.beginTime?time("HH:mm") <= curTime?time("HH:mm") && curTime?time("HH:mm") < Request.fresh.endTime?time("HH:mm") && 0 < Request.fresh.disNum> 
+				      <#assign saleType = "1">
+				      <#assign salePrice = "${Request.fresh.disPrice?string('######################.##')}"> 
+				      <span>￥${Request.fresh.disPrice}</span>元 / <span>份</span>
+					<#else> 
+					  <span>￥${Request.fresh.price}</span>元 / <span>份</span>
+					</#if>
+					 <a	class="sub" ontouchend="lessFunc('${Request.fresh.freshId}');"></a>
+					 <span id="num${Request.fresh.freshId}" class="food-num">0</span>
+					 <a	class="add"	ontouchend="plusFunc('${Request.fresh.freshId}','${Request.fresh.freshName}','${Request.fresh.logo}', '${Request.fresh.ofShopId}', '${Request.fresh.shopName}', '${Request.fresh.price?string('######################.##')}', '${saleType}','${salePrice}', '${suggest}')"></a>
+				</li>
+				<li><span class="sp2">原价 :</span>&nbsp;<span class="sp3">￥${Request.fresh.price}元/<span>份</span></span></li>
+				<#if 0==Request.fresh.freshType>
+				<li><span class="sp2">类型 :</span>&nbsp;<span class="sp3">${Request.fresh.typeName}</span></li>
+				<#else>
+				<li><span class="sp2">类型 :套餐</li>
+				<li><span class="sp2">建议就餐人数:${suggest}</li>
+				</#if>
+				<li><span class="sp2">精选自:</span>&nbsp;<span class="sp3">${Request.fresh.shopName}</span></li>
+			</ul>
+		</div>
+		 
+		<p class="reviews_title marginTop">
+			<span class="sp2">商品详情</span>
+		</p>
+		<div class="product">
+			<div class="textarea">
+				<span>
+					<#if Request.fresh.remarks??>
+						${Request.fresh.remarks}
+					</#if>
+				</span>
+			</div>
+		</div>
+		<!--商家介绍-->
+		<p class="reviews_title marginTop">
+			<span class="sp2">商家介绍</span>
+		</p>
+		<div class="introduce clearFix">
+			<div class="left">
+				<img src="${Request.fresh.shopLogo}" alt="" />
+			</div>
+			<div class="right">
+				<p class="p1">${Request.fresh.shopName}</p>
+				<p class="p2">
+					<span>地址 :</span><span>${Request.fresh.address}</span>
+				</p>
+			</div>
+			<p class="fg"></p>
+			<div class="btn">
+				<a href="/index/fresh/entershop.do?shopId=${Request.fresh.ofShopId}"><em class="shop"></em>&nbsp;&nbsp;<span>进店逛逛</span></a>
+				<a href="tel:${Request.fresh.telphone}"><em class="phone"></em>&nbsp;&nbsp;<span>联系商家</span></a>
+			</div> 
+		</div>
+		<div class="foods-list">
+			 
+		</div>
+		<div class="shade none"></div>
+		<div class="shopping-cart">
+			<div class="food-info fl">
+				<a class="cart-ico" href="javascript:void(0);"><span id="num"
+					class="num">0</span></a> <span class="info">
+					<p class="hint">30元起送</p>
+					<p class="money">¥0.00</p>
+				</span>
+			</div>
+			<div class="submit fr">
+				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+			</div>
+		</div>
+		<div class="food-choice-list">
+			<ul id="cart">
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/dist/js/base.js"></script>
+<script type="text/javascript" src="/dist/fresh/cart.js"></script>
+<script type="text/javascript">
+	function customLike(){
+		var _shopId = $("a#customlike").attr("data-shop") ;   
+    	var _opt = $("a#customlike").attr("data-opt"); 
+    	$.post("/index/near/customlike.do" , 
+    			{goodsId:_shopId,opt:_opt,likeType:2} , 
+    			function(data){     
+    				if(data==="2"){alert("请先登陆");} 
+    				else if(data ==="0"){alert("收藏失败")} 
+    				else{
+    					$("a#customlike").attr("data-opt",(_opt==0?1:0)); 
+    				} 
+    				if($("a#customlike").attr("data-opt")==0){
+    		            $("a#customlike").removeClass("colle_active");
+    		        }else{
+    		            $("a#customlike").addClass("colle_active");
+    		        }  
+    	}) ;  
+	}
+    fresh();
+</script>
+</html>

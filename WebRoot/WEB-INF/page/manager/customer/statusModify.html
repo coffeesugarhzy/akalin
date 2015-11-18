@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<link type="text/css" href="/dist/js_ztree/css/zTreeStyle.css"
+	rel="stylesheet">
+
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id="myform" name="myform" method="post"
+				enctype="multipart/form-data">
+				<fieldset style="width:95%">
+					<legend>客户状态信息修改 </legend>
+					<table width="100%" class="table_form">
+					<tr>
+						<td><input name="id" value="${customId}" hidden="hidden"></td>
+					</tr>
+					<#if status??>
+						<input name="num" value="${status}" id="status" hidden="hidden">
+					<script type="text/javascript">
+						var list=new Array("正常","屏蔽","禁言","注销");
+						for(var i=0;i<4;i++){
+							var num=document.getElementById("status").value;
+							var value=list[i];
+							if(i==num){
+								document.write("<tr>");
+								document.write("<td>");
+								document.write("<input type='radio' name='status' checked value='"+i+"'>"+value);
+								document.write("</td>");
+								document.write("</tr>");
+							}
+							else{
+								document.write("<tr>");
+								document.write("<td>");
+								document.write("<input type='radio' name='status' value='"+i+"'>"+value);
+								document.write("</td>");
+								document.write("</tr>");
+							}
+						}
+					</script>
+					<#else>
+					</#if>
+					</table>
+				</fieldset>
+				<div class="ds_dialog_buttons">
+					<a onclick="validate()" class="ds_dialog_yess"><span>确定</span>
+						</button> </a>
+				</div>
+			</form>
+			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+		</div>
+
+		<!--　jquery 引入 -->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		
+			<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js" type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css" rel="stylesheet">
+	    <script charset="utf-8" src="/dist/js/md5.js"></script>
+
+		<script>
+			initEditor("remark");
+			function validate() {
+				var tip = tt.validate();
+				if (tip === true) {
+				 
+				    $("#myform").submit();
+				}
+			}
+		</script>
+
+	</div>
+</body>
+</html>

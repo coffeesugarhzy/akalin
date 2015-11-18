@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<link type="text/css" href="/dist/js_ztree/css/zTreeStyle.css"
+	rel="stylesheet">
+
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+
+
+</head>
+<body>
+
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id="myform" name="myform" method="post" target="hidden_frame"
+				enctype="multipart/form-data">
+				<fieldset style="width:95%">
+						<legend>商家信息 </legend>
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="100px">LOGO</td>
+							<td><img id="imgView" src="/dist/img/viewimage.jpg"
+								width="100px" /> <input type="button" value="请选择"
+								onclick="$('input#file').click()" />
+								<div style="display:block">
+									<input type="file" id="file" name="file"
+										onchange="change('imgView','file')" accept="image/*"
+										style="width:0px;height: 0px;" />
+								</div></td>
+						</tr>
+						<tr>
+							<td width="80">商家名称</td>
+							<td><input type="text" name="userName" length="30"
+								class="input-text"></td>
+						</tr>
+						<tr>
+							<td width="80">联系电话</td>
+							<td><input type="text" name="telphone" length="30"
+								class="input-text"></td>
+						</tr>
+						<tr>
+							<td width="80">商家登陆名</td>
+							<td><input type="text" name="loginName" length="30"
+								class="input-text"></td>
+						</tr>
+						<tr>
+							<td width="80">商家登录密码</td>
+							<td><input type="text" id="passwd" length="30"
+								class="input-text"><input type="hidden" id="loginPassword" name="loginPassword" length="30"
+								class="input-text"></td>
+						</tr>
+
+						<tr>
+							<td width="80">商家角色</td>
+							<td><select name="userRole.roleId" style="width: 150px">
+									<option value="">请选择角色</option> <#if Request.beans??> <#list
+									Request.beans as bean>
+									<option value="${bean.roleId}">${bean.roleName}</option>
+									</#list> </#if>
+							</select></td>
+						</tr>
+						<tr>
+							<td width="80">商家详情</td>
+							<td><textarea rows="" cols="" style="width:95%"
+									name="remark"></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+				<div class="ds_dialog_buttons">
+					<a onclick="validate()" class="ds_dialog_yess"><span>确定</span>
+					</button> </a>
+				</div>
+			</form>
+			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+		</div>
+
+		<!--　jquery 引入 -->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		
+		<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js" type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css" rel="stylesheet">
+		<script charset="utf-8" src="/dist/js/md5.js"></script>
+
+		<script>
+			initEditor("remark");
+			
+			$(function(){
+				$("input[name='loginName']").change(function(){
+					  var _loginName = $(this).val() ; 
+					  $.post("/manager/provider/checkRepeatName.do",{loginName:_loginName},function(data){
+						  if(data==="1"){
+							  alert("用户名重复") ; 
+							  $("input[name='loginName']").val("") ; 
+						  }
+					  }) ; 
+				});
+			}) ; 
+			
+			function validate() { 
+				var tip = tt.validate();
+				if (tip === true) {
+				    var passwd = $("#passwd").val();
+				    $("#loginPassword").val(encrypt(passwd));
+				    $("#myform").submit();
+				}
+			}
+		</script>
+		<script id="talent_script">
+			tt.vf.req.add("loginName", "passwd", "userName", "telphone",
+					"userRole.roleId");
+		</script>
+
+	</div>
+</body>
+</html>
+

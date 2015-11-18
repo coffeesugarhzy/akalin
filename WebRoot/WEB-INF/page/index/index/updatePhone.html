@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta content="width=640,target-densitydpi=320, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>修改手机号码</title>
+<link rel="stylesheet" type="text/css" href="/dist/css/myHead.css" />
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+</head>
+<script type="text/javascript">
+	var InterValObj;
+	var curCount = 59;
+	var i = 0;
+	function commitData() {
+		var phone = $.trim($('#phone').val());
+		var checkCode = $.trim($('#checkCode').val());
+		if (null === phone || "" === phone || null === checkCode
+				|| "" === checkCode || isNaN(phone)) {
+			alert("手机号码或验证码不能为空，且手机号只能为数字");
+			return;
+		}
+		if (0 === i) {
+			$.ajax({
+				url : '/index/index/doUpdatePhone.do',
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					'phone' : phone,
+					'checkCode' : checkCode
+				},
+				success : function(data) {
+					if (data === "login") {
+						alert("已超时，请登录");
+					} else if (data === "checkCodeIsNull") {
+						alert("验证码已失效");
+					} else if (data === "checkCodeIsError") {
+						alert("错误的验证码");
+					} else {
+						alert("操作成功");
+						location.href = "/index/index/myData.do";
+					}
+				}
+			});
+			i++;
+		}
+	}
+
+	function sendCheckCode() {
+		if ("validation" != validation.className) {
+			return;
+		}
+		var phone = document.getElementById("phone").value;
+		if (null == phone || 0 == phone.length || isNaN(phone)) {
+			alert("手机号码不能为空，且只能为数字");
+			return;
+		}
+		$.ajax({
+			type : "post",
+			url : "/index/index/sendCheckCode.do",
+			data : {
+				"phone" : phone
+			}
+		});
+		$("#validation").addClass("vali_bg");
+		$("#validation").attr("disabled", true).text("59s秒后重新获取");
+		//请求成功后
+		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+	};
+	//timer处理函数
+	function SetRemainTime() {
+		if (curCount == 0) {
+			curCount = 59;
+			window.clearInterval(InterValObj); //停止计时器
+			$("#validation").removeAttr("disabled").removeClass("vali_bg"); //启用按钮
+			$("#validation").text("获取验证码");
+		} else {
+			curCount--;
+			$("#validation").text(curCount + "s秒后重新获取");
+		}
+	}
+</script>
+<body>
+	<div class="header">
+		<div class="file_cion header_back">
+			<a href="javascript:history.back();"></a>
+		</div>
+		<div class="header_title">修改手机号码</div>
+		<div class="go">
+			<a href="javascript:commitData();">提交</a>
+		</div>
+	</div>
+	<form id="myForm" method="post">
+		<div class="content">
+			<input type="text" class="input_text" name="phone" id="phone"
+				value="${Session.loginCustomer.telphone}" placeholder="手机号码"
+				maxlength="11" />
+			<div class="border">&nbsp;</div>
+			<div class="disun">
+				<div class="inspection">
+					<input type="text" class="input_text" name="checkCode"
+						id="checkCode" placeholder="验证码" maxlength="10" />
+					<div class="border">&nbsp;</div>
+				</div>
+				<div class="validation" id="validation"
+					onclick="javascript:sendCheckCode();">
+					获取验证码
+					<!--60s后可重新获取-->
+				</div>
+			</div>
+			<div class="clues_one">此手机号码用于找回密码</div>
+		</div>
+	</form>
+</body>
+</html>

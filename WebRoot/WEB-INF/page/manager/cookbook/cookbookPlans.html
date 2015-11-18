@@ -1,0 +1,141 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+
+<link href="/dist/jqGrid/css/ui.jqgrid.css" rel="stylesheet"
+	type="text/css" />
+<link href="/dist/jqGrid/css/jquery-ui.custom.css" rel="stylesheet"
+	type="text/css" />
+<link href="/dist/jqGrid/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+	<div class="subnav">
+		<div class="content-menu ib-a blue line-x">
+			<a onclick="top.dsIframe('添加套餐','/manager/cookbook/addCookbookPlans.do',700,500)"
+				class="add fb"><em>添加套餐 </em> </a>
+		</div>
+	</div>
+	<div class="pad-lr-10">
+		<form method="get" name="searchform">
+			<table width="100%" cellspacing="0" style="font-size:12px"
+				class="search-form">
+				<tbody>
+					<tr>
+						<td>
+							<div class="explain-col">
+								搜索关键字： <input type="text" class="input-text" value=""
+									name="keyword"> <span
+									class="content-menu ib-a blue line-x" style=""> <a
+									onclick="search_keyword()" class="add fb"><em>搜索 </em></a>
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<table id="list"></table>
+		<div id="no"></div>
+		<div id="pager"></div>
+	</div>
+
+	<!-- jqgrid js引入　-->
+	<script type="text/javascript"
+		src="/dist/jqGrid/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript"
+		src="/dist/jqGrid/js/jquery.jqGrid.min.js"></script>
+	<script type="text/javascript"
+		src="/dist/jqGrid/js/i18n/grid.locale-cn.js"></script>
+    <script charset="utf-8" src="/dist/js/editor.js"></script>
+	<!-- 数据连接 -->
+	<script type="text/javascript">
+    
+    function search_keyword(){
+    	var name = $.trim($("input[name='keyword']").val());
+    	$("#list").jqGrid('setGridParam',{
+			url : "/manager/cookbook/listJson.do",
+			postData : {'keyword' : name,'cookType' : 1},
+			page : 1
+		}).trigger("reloadGrid");
+    }
+  
+$(function(){
+ 
+$("#list").jqGrid({
+         url : '/manager/cookbook/listJson.do',
+         postData : {'cookType':1},
+        datatype : "json",
+        colNames : ['', '套餐名', '套餐价格(元)','天天特价','限时抢购','增加时间','操作' ],
+        colModel : [ 
+		{sortable : false, name : 'cookbooksId',	  index : 'cookbooksId',	   align : 'left' , 	 hidden : true}, 
+		{sortable : false, name : 'cookName',	      index : 'cookName',	       align : 'left' , 	 width : 100}, 
+		{sortable : false, name : 'price',            index : 'price',             align : 'left',       width : 30}, 
+		{sortable : false, name : 'isSale',           index : 'isSale',            align : 'left',       width : 50,formatter : optionSale},
+		{sortable : false, name : 'isDis',            index : 'isDis',             align : 'left',       width : 50,formatter : optionDis}, 
+		{sortable : false, name : 'addDate',          index : 'addDate',           align : 'left',       width : 50},
+		{sortable : false, name : 'cookName',         index : 'cookName',          align : 'left',       width : 80,formatter : optionForm}],
+		jsonReader : {
+		root : "content",
+		       page : "page",
+		       total : "total",
+		       records : "records",
+		       repeatitems : false
+		             },
+		rowNum : 15,
+		       rowList : [ 5, 10, 15, 20, 30, 50 ],
+		       pager : 'pager',
+		       autowidth : true,
+		       height : 'auto',
+		       gridview : true,
+		       viewrecords : true,
+		       multiselectWidth : 25,
+		       multiselect : false,
+		       loadComplete : function(data) {
+		           if (data.records === 0) {
+		               $("#update_btn").hide();
+		               $("#remove_btn").hide();
+		               $("#queryByName").hide();
+		           } else {
+		               $("#update_btn").show();
+		               $("#remove_btn").show();
+		               $("#queryByName").show();
+		           }
+		       }
+		});
+}) ; 
+
+function optionSale(cellValue, options, rowObject){
+    var isSale = rowObject['isSale'];
+    if("0" == isSale){
+       return "<font color='green'>已开启</font>";
+    }else{
+       return "<font color='gray'>未开启</font>";
+    }
+}
+
+function optionDis(cellValue, options, rowObject){
+     var isDis = rowObject['isDis'];
+    if("0" == isDis){
+        return "<font color='green'>已开启</font>";
+    }else{
+        return "<font color='gray'>未开启</font>";
+    }
+}
+
+function optionForm(cellValue, options, rowObject){ 
+	var id = rowObject['cookbooksId'] ;  
+	var name =  rowObject['cookName'] ;
+	var ediStr = "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"编辑 ["+name+"]\" , \"/manager/cookbook/modCookbookPlans.do?id="+id+"\" ,700,500)'>编辑</a></span>" ;
+	var deleteStr = "<span class='delete'><a style='cursor:pointer' onclick='top.deleteById(\"/manager/cookbook/del.do\" , \""+id+"\")'>删除</a></span>" ;
+	var detailStr = "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"查看 ["+name+"]\",\"/manager/cookbook/detail.do?id="+id+"\",700,500)'>详细</a></span>" ;
+	var setSale = "<span class='delete'><a style='cursor:pointer' onclick='top.dsIframe(\"设置优惠 ["+name+"]\",\"/manager/cookbook/toSale.do?id="+id+"\",500,270)'>设置优惠</a></span>";
+	return detailStr+"&nbsp;&nbsp;"+ediStr + "&nbsp;&nbsp;"+deleteStr+"&nbsp;&nbsp;"+setSale;
+} 
+    </script>
+</body>
+</html>
+

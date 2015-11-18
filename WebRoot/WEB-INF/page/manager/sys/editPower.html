@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE>Test</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+	<link rel="stylesheet" href="/dist/js_ztree/css/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="/dist/js_ztree/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="/dist/js_ztree/js/jquery.ztree.core-3.5.min.js"></script>
+	<script type="text/javascript" src="/dist/js_ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+	<SCRIPT type="text/javascript">
+		
+	<!--
+	var treeObj;
+	var setting = {
+			view: {
+				selectedMulti: false
+			},
+			check: {
+				enable: true
+			},
+			data: {
+				key:{
+                 name:"menuName"
+                },
+				simpleData: {
+					enable: true,
+					idKey: "menuId",
+                    pIdKey: "parentId"
+				}
+				
+			}
+		};
+
+	var nodes =${allMenusJson};
+
+	
+	var checkNodes = ${menusJson};
+
+	$(document).ready(function(){
+		treeObj = $.fn.zTree.init($("#treeObj"), setting, nodes);
+		treeObj.expandAll(true);
+		
+		AssignCheck();
+	});
+	
+	
+	//选中指定的节点
+    function AssignCheck() {
+	    var node;
+	    var checkNodeJson =eval(checkNodes) ;   
+	    for(var i = 0,len = checkNodeJson.length;i<len;i++){
+		    node = treeObj.getNodeByParam("menuId", checkNodeJson[i].menuId, null);
+			if (null != node && !node.isParent){
+			    treeObj.checkNode(node, true, true);
+				continue;
+			}
+	    }
+    }
+	
+	function getSelectValue(){
+	    var nodes=treeObj.getCheckedNodes(true);
+        var result="";
+		for(var i = 0,len = nodes.length;i<len;i++){
+		    if('0'==nodes[i].menuId || '1'==nodes[i].menuId){
+			    continue;
+			}
+			result +=nodes[i].menuId+",";
+		}
+		if(result !== ""){
+			$.ajax({
+				cache: true,
+				type: "POST",
+				url: "/manager/sys/updateRole.do",
+				data:{roleId:$("input[name='roleId']").val(),powerArr:result},// 你的formid
+				async: false,
+			    error: function(request) {
+			    	top.tip("操作提示" , "连接失败" , "info") ;
+			    },
+			    success: function(data) {
+			    	top.tip("操作提示" , "保存成功" , "success") ; 
+			    }
+			});
+		}else{
+			top.dsTip("请选择权限 ");
+		}
+	}
+	
+	//-->
+</SCRIPT>
+</HEAD>
+
+<BODY class="pad-bottom-30"> 
+<input type="hidden"  name="roleId" value="${roleId}">
+<div id="treeObj" class="ztree"></div>
+<div class="ds_dialog_buttons">
+	<a onclick="getSelectValue()" class="ds_dialog_yess"><span>确定</span></button></a>
+</div>
+</BODY>
+</HTML>

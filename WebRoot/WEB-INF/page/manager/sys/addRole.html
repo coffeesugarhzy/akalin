@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<link type="text/css" href="/dist/js_ztree/css/zTreeStyle.css" rel="stylesheet">
+ 
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+ 
+
+</head>
+<body>
+ 
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id="myform" name="myform"> 
+				<table width="100%" class="table_form">
+					<tbody>
+						<tr>
+							<td width="80">角色名称</td>
+							<td><input type="text" name="roleName" length="30"
+								class="input-text" style="width: 300px;"> </td>
+						</tr>
+						<tr>
+							<td width="80" valign="top">权限编辑</td>
+							<td>
+								<div id="treeObj" class="ztree"></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>  
+				<div class="ds_dialog_buttons">
+				   <a onclick="validate()" class="ds_dialog_yess"><span>确定</span></button> 
+				   </a>
+				 </div>
+			</form>
+		</div>
+
+		<!--　jquery 引入　-->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js" type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css" rel="stylesheet">
+
+		<!--　权限框架　--> 
+		<script src="/dist/js_ztree/js/jquery.ztree.core-3.5.min.js" type="text/javascript"></script>
+		<script src="/dist/js_ztree/js/jquery.ztree.excheck-3.5.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		 
+			var treeObj;
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+					check: {
+						enable: true
+					},
+					data: {
+						key:{
+		                 name:"menuName"
+		                },
+						simpleData: {
+							enable: true,
+							idKey: "menuId",
+		                    pIdKey: "parentId"
+						}
+						
+					}
+				};
+		 
+			var nodes = ${allMenusJson} ; 
+			
+			$(document).ready(function(){
+				treeObj = $.fn.zTree.init($("#treeObj"), setting, nodes);
+				treeObj.expandAll(true);
+				 
+			});
+			 
+			function getSelectValue(){
+			    var nodes=treeObj.getCheckedNodes(true);
+		        var result="";
+				for(var i = 0,len = nodes.length;i<len;i++){
+				    if('0'==nodes[i].menuId || '1'==nodes[i].menuId){
+					    continue;
+					}
+					result +=nodes[i].menuId+",";
+				}
+				return result ; 
+			}
+	
+		</script>
+		<script>
+		function validate(){ 
+		    var tip = tt.validate() ;   
+		  	if(tip === true){ 
+		  		var powerTxt = getSelectValue() ;   
+		  		if($.trim(powerTxt) === ""){  
+		  			top.dsTip("请选择权限 ");
+		  			return false; 
+		  		}else{ 
+		  			$.post("/manager/sys/addRole.do",{roleName:$("input[name='roleName']").val(),powerArr:powerTxt},function(result){
+		  				top.tip("操作提示" , "保存成功 " , "success"); 
+		  			 }); 
+		  		} 
+		  	} 
+		}
+		 
+		</script>
+		<script id="talent_script">
+    		tt.vf.req.add("roleName");   
+		</script>
+
+	</div>
+</body>
+</html>
+

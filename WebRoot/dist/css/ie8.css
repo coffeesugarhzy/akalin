@@ -1,0 +1,20 @@
+table{
+    border-collapse:none !important ; 
+}
+
+/* input{
+    padding-bottom:7px !important ; 
+}
+ */
+.input-text{
+	height: 22px !important; 
+	line-height: 22px !important;
+}
+
+.content-menu{
+	padding-bottom: 0px !important;
+}
+
+.add em{
+	line-height: 35px !important;
+}

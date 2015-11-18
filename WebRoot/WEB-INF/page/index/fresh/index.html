@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<title>邻卖网络-生鲜</title>
+<meta name="viewport"
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<link rel="stylesheet" href="/dist/css/style.css"> 
+<style type="text/css">
+    .times-price{width:100% !important;float:left;
+			background-image: url('/dist/images/fresh/pic_timers.png');
+			background-size: 100%;
+			background-repeat: no-repeat;}
+	.times-price .rush{left: 0px;top: 110px;}
+</style>
+</head>
+<body class="bg-gray">
+	<div class="contents">
+		<div class="header">
+			<h1 class="page-head">
+				<a href="javascript:window.history.back();" class="fl back"></a>生鲜<a
+					href="/index/index/position.do" id="cityName" class="fr position"><i></i></a>
+			</h1>
+		</div>
+		
+		<#include "../inc/nav_head_menu.html">
+    
+		<div class="conts clearFix">
+			<div class="main1 clearFix">
+				<#if Request.beanList ??>
+	        		<#list beanList as bean>
+	        			<a href="/index/fresh/fresh.do?queryType=1&key=2&value=${bean.typeName}" 
+	        			    class="logo ${(bean_index%3==0)?string('','margin27')}">
+	                		<img src="/dist/images/fresh/${bean.typeId}.png" alt="${bean.typeName}" />
+	               		 	<p>${bean.typeName}</p>
+	            		</a>
+	        		</#list>
+	        	</#if>  
+			</div>
+		</div>
+		<div class="nav clearFix">
+	        <a href="/index/fresh/fresh.do?queryType=3" class="a3">
+	            <div>
+	                <p>天天特价</p>
+	                <div class="pic clearFix">
+	                    <div class="left clearFix">
+	                        <span>很便宜哦!很便宜哦!很便宜</span>
+	                        <div class="img">
+	                           <img src="/dist/images/qiang.png" alt=""/>
+	                        </div>
+	                    </div>
+	                    <div class="right">
+	                    	<#if Request.saleFresh ??>
+	                       		<img src="${Request.saleFresh.logo}" alt=""/>
+	                       	<#else>
+	                       		<img src="/dist/images/canting.png" alt=""/>
+	                        </#if>
+	                    </div>
+	                </div>
+	            </div>
+	        </a>
+	        <a href="/index/farm/farm.do?queryType=1&key=2" class="a3">
+	            <div class="borderleft">
+	                <p>农户种植</p>
+	                <div class="pic clearFix">
+	                    <div class="left clearFix" >
+	                        <span>全是本地种植的哦!</span>
+	                        <div class="img">
+	                            <img src="/dist/images/qiang.png" alt=""/>
+	                        </div>
+	                    </div>
+	                    <div class="right">
+	                        <img src="/dist/images/nonghuzhongzhi.png" alt=""/>
+	                    </div>
+	                </div>
+	            </div>
+	        </a>
+	    </div>
+	  <div class="nav clearFix">
+        <a href="/index/fresh/flashsale.do" class="a3">
+            <div class="times-price">
+				<div class="buy-time">
+					<h2>限时抢购</h2>
+					<div class="timer" data-times="2222/12/31,18:00:00">
+						<span>0</span><span>8</span><span class="pointer">:</span><span>4</span><span>3</span><span
+							class="pointer">:</span><span>4</span><span>0</span>
+					</div>
+					<p>柳州各大美食，限时抢购！</p>
+				</div> 
+		     </div> 
+        </a>
+        <a href="/index/fresh/fresh.do?queryType=2" class="a3"> 
+			<div class="borderleft">
+                <p>精品套餐</p>
+                <div class="pic clearFix">
+                    <div class="left clearFix" >
+                        <span>精心搭配，精心挑选！</span> 
+                    </div>
+                    <div class="right">
+                        <img src="/dist/images/canting2.png" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+		<div class="footer">
+			<ul class="clearFix">
+				<li><a class="s active" href="/index/index/toIndex.do"><i></i>
+						<p>首页</p></a></li>
+				<li><a class="f" href="/index/near/index.do"><i></i>
+						<p>附近</p></a></li>
+				<li><a class="d" href="/index/orders/ordershopsec.do"><i></i>
+						<p>订单</p></a></li>
+				<li><a class="w" href="/index/index/my.do"><i></i>
+						<p>我的</p></a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/dist/js/jquery.cookie.js"></script> 
+	<script> 
+		$(function() { 
+			$('#cityName').html($.cookie('cityName'));
+		}); 
+	</script>
+</body>
+</html>

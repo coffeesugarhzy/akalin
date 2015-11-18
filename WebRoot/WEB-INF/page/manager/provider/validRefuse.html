@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta content="IE=7" http-equiv="X-UA-Compatible">
+<link type="text/css" rel="stylesheet" href="/dist/css/reset.css">
+<link type="text/css" href="/dist/js_ztree/css/zTreeStyle.css"
+	rel="stylesheet">
+
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/dist/css/ie8.css">
+<![endif]-->
+
+</head>
+<body>
+	<div class="pad-bottom-30">
+		<div class="common-form">
+			<form id="myform" name="myform" method="post" >
+				<fieldset style="width:95%">
+					<legend>商家审批拒绝操作 </legend>
+					<table width="100%" target="hidden_frame" class="table_form">
+						<tbody>
+						   <#if Request.bean.shopname??>
+							<tr>
+								<td width="80">Logo</td>
+								<td><img id="imgView" src="${(Request.bean.logo)!''}"
+							width="120px" height="120px" /></td>
+								
+							</tr>
+							</#if>
+						   <#if Request.bean.shopname??>
+							<tr>
+								<td width="80">商家名称</td>
+								<td>
+								      ${Request.bean.shopname}
+								</td>
+							</tr>
+							</#if>
+						   <#if Request.bean.telphone??>
+							<tr>
+								<td width="80">商家电话</td>
+								<td>
+								      ${Request.bean.telphone}
+								</td>
+							</tr>
+							</#if>
+							<tr>
+								<td width="80">认证失败原因</td>
+								<td>
+									<textarea rows="" cols="" style="width:95%" name="remark">
+									</textarea>
+									<input type="hidden" name="id" value="${Request.bean.id}"/>	
+									<input type="hidden" name="isValid" value="2"/>	
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+				<div class="ds_dialog_buttons">
+					<a onclick="validate()" class="ds_dialog_yess"><span>确定</span>
+						</button> </a>
+				</div>
+			</form>
+			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+		</div>
+
+		<!--　jquery 引入 -->
+		<script type="text/javascript" src="/dist/js/jquery.min.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+		
+			<!--　编辑器框架引入 -->
+		<script charset="utf-8" src="/dist/kindeditor/kindeditor.js"></script>
+		<script charset="utf-8" src="/dist/js/editor.js"></script>
+
+		<!--　验证框架引入 -->
+		<script src="/dist/validate/talent-validate-all-init.js" type="text/javascript"></script>
+		<link href="/dist/validate/css/validate.css" type="text/css" rel="stylesheet">
+	    <script charset="utf-8" src="/dist/js/md5.js"></script>
+
+		<script>
+			initEditor("remark");
+			function validate() {
+				    $("#myform").attr("action","modifyValid.do");
+				    $("#myform").submit();
+			}
+		</script>
+	</div>
+</body>
+</html>
+

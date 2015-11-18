@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="format-detection" content="telephone=no">
+<meta content="width=640,target-densitydpi=320, user-scalable=0"
+	name="viewport" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>修改姓名</title>
+<link rel="stylesheet" type="text/css" href="/dist/css/myHead.css" />
+<script type="text/javascript" src="/dist/js/jquery-1.8.0.min.js"></script>
+</head>
+<script type="text/javascript">
+	function commitData() {
+		var customerName = $.trim($('#customerName').val());
+		if (null === customerName || "" === customerName) {
+			alert('请输入姓名');
+			return;
+		}
+		$.ajax({
+			url : '/index/index/doUpdateName.do',
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				'customerName' : customerName
+			},
+			success : function(data) {
+				alert("操作成功");
+				location.href = "/index/index/myData.do";
+			}
+		});
+	}
+</script>
+<body>
+	<div class="header">
+		<div class="file_cion header_back">
+			<a href="javascript:history.back();"></a>
+		</div>
+		<div class="header_title">修改姓名</div>
+		<div class="go">
+			<a href="javascript:commitData();">提交</a>
+		</div>
+	</div>
+	<form id="form0" method="post">
+		<div class="content">
+			<input type="text" class="input_text" name="customerName"
+				id="customerName" value="${Session.loginCustomer.customName!''}"
+				placeholder="姓名" maxlength="15" />
+			<div class="border">&nbsp;</div>
+		</div>
+	</form>
+</body>
+</html>

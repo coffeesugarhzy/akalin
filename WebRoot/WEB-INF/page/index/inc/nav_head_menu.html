@@ -1,0 +1,28 @@
+<div class="head-menu">
+	<ul class="clearFix">
+		<#if Request.tip ??> 
+			<#if Request.tip == 'index'>
+				<li><a class="active" href="/index/index/toIndex.do">舌尖</a></li>
+			<#else>
+				<li><a href="/index/index/toIndex.do">舌尖</a></li>
+			</#if> 
+			<#if Request.tip == 'dingzhuo'>
+				<li><a class="active" href="/index/index/table.do">订桌</a></li>
+			<#else>
+				<li><a href="/index/index/table.do">订桌</a></li>
+			</#if>
+			
+			<#if Request.tip == 'dinner'>
+				<li><a class="active" href="/index/dinner/dinner.do">家宴</a></li>
+			<#else>
+				<li><a href="/index/dinner/dinner.do">家宴</a></li>
+			</#if>
+			
+			<#if Request.tip == 'fresh'>
+				<li><a class="active" href="/index/fresh/index.do">生鲜</a></li> 
+			<#else>
+				<li><a href="/index/fresh/index.do">生鲜</a></li> 
+			</#if> 
+		</#if> 
+	</ul>
+</div>
