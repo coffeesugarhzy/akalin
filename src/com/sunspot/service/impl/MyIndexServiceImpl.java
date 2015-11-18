@@ -106,6 +106,7 @@ public class MyIndexServiceImpl implements MyIndexService
         return list;
     }
 
+    
     @Override
     public Snack getSnack(String id)
     {
