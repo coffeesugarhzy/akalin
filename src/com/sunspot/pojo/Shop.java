@@ -31,6 +31,7 @@ public class Shop implements java.io.Serializable
     private String linkMan;
     private String telphone;
     private String openTime;
+    private String closeTime;//关店时间
     private double cost;
     private String had;
     private String remark;
@@ -95,7 +96,50 @@ public class Shop implements java.io.Serializable
         this.tableInfos = tableInfos;
         this.orderNum = orderNum;
     }
+    
 
+
+	public Shop(String shopId, String ofUserId, String shopName,
+			String typeName, String ofAreaId, String linkMan, String telphone,
+			String openTime, String closeTime, double cost, String had,
+			String remark, String logo, Integer isBook, Integer isFull,
+			Integer isDis, String address, String beginTime, String endTime,
+			Integer marks, String disContent, double longitude,
+			double latitude, String addDate, String updateDate,
+			Integer orderNum, Integer isToday, Integer isWeekly,
+			Integer online, List<TableInfo> tableInfos) {
+		super();
+		this.shopId = shopId;
+		this.ofUserId = ofUserId;
+		this.shopName = shopName;
+		this.typeName = typeName;
+		this.ofAreaId = ofAreaId;
+		this.linkMan = linkMan;
+		this.telphone = telphone;
+		this.openTime = openTime;
+		this.closeTime = closeTime;
+		this.cost = cost;
+		this.had = had;
+		this.remark = remark;
+		this.logo = logo;
+		this.isBook = isBook;
+		this.isFull = isFull;
+		this.isDis = isDis;
+		this.address = address;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.marks = marks;
+		this.disContent = disContent;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.addDate = addDate;
+		this.updateDate = updateDate;
+		this.orderNum = orderNum;
+		this.isToday = isToday;
+		this.isWeekly = isWeekly;
+		this.online = online;
+		this.tableInfos = tableInfos;
+	}
 
 	public Shop(String shopId, String ofUserId, String shopName,
 			String typeName, String ofAreaId, String linkMan, String telphone,
@@ -453,5 +497,13 @@ public class Shop implements java.io.Serializable
 	public void setIsWeekly(Integer isWeekly) {
 		this.isWeekly = isWeekly;
 	}
+	@Column(name = "CLOSE_TIME")
+	public String getCloseTime() {
+		return closeTime;
+	}
 
+	public void setCloseTime(String closeTime) {
+		this.closeTime = closeTime;
+	}
+	
 }

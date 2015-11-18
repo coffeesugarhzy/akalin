@@ -60,6 +60,12 @@
 							</#if>
 							<!-- <input type="checkbox" id="online" class="checkbox" name="online"  style="display:none"/> -->
 						  </div>
+						  <div style="padding-top: 30px"></div>
+						  	<div>
+						  		<a class="add fb" id="saleA"
+								onclick="top.dsIframe('设置店铺自动休息时间 [${shop.shopName}]','/manager/shop/toSetCloseTime.do?id=${shop.shopId}',550,230)"><em>设置店铺自动关店时间
+								</em></a>
+					   		</div>
 						</div>
 					</#if>
 					<div class="clear"></div>
@@ -276,6 +282,10 @@
 						<tr>
 							<td>营业时间</td>
 							<td>${(shop.openTime)!''}</td>
+						</tr>
+						<tr>
+							<td>关店时间</td>
+							<td style="color:red">${(shop.closeTime)!''}</td>
 						</tr>
 						<tr>
 							<td>人均消费</td>

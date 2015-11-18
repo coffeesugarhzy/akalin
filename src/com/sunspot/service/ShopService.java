@@ -123,4 +123,10 @@ public interface ShopService
      * @param shop
      */
     void modShopInfo(Shop shop);
+
+    /**
+     * 设置店铺自动关店时间
+     * @param shop
+     */
+	void setCloseTime(Shop shop);
 }

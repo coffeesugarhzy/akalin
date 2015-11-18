@@ -281,7 +281,43 @@ public class ShopController
 
         return "/rsp/submitrsp";
     }
-
+    
+        /**
+         * 商家设置自动关店的时间
+         * 
+         * @param id
+         * @param modelMap
+         */
+       @RequestMapping(value = "setCloseTime",method = RequestMethod.POST)
+        public String SetCloseTime(Shop shop, ModelMap modelMap)
+        {
+        	int resultCode = 1;
+            try
+            {
+                shopService.setCloseTime(shop);
+            }
+            catch (Exception e)
+            {
+                runLog.error(e);
+                resultCode = 0;
+            }
+            modelMap.addAttribute("resultCode", resultCode);
+    
+            return "/rsp/submitrsp";
+        }
+        
+        /**
+    +     * 跳转到商家设置自动关店时间页面
+    +     * 
+    +     * @param id
+    +     * @param modelMap
+    +     */
+        @RequestMapping("toSetCloseTime")
+        public void toSetCloseTime(String id, ModelMap modelMap)
+        {
+            modelMap.addAttribute("shop", shopService.queryFullById(id));
+        }
+        
     private List<TableInfo> getTableInfo(String[] tableName,
             Integer[] tableVolume, Integer[] tableNum)
     {

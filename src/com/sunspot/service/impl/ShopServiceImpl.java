@@ -1,6 +1,10 @@
 package com.sunspot.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,13 +39,13 @@ public class ShopServiceImpl implements ShopService
     private final Log runLog = LogFactory.getLog(ShopServiceImpl.class);
 
     // 根椐用户ID查询店铺
-    private final String QUERY_SHOP_USERID = "select shop_id, of_user_id, shop_name,type_name, link_man, telphone, open_time, cost, had, remark, logo, is_book,is_full, is_dis,address,begin_time,end_time,marks,dis_content, longitude, latitude, add_date,update_date,order_num,of_area_id,online,is_today,is_weekly from shop where of_user_id=?";
+    private final String QUERY_SHOP_USERID = "select shop_id, of_user_id, shop_name,type_name, link_man, telphone, open_time, cost, had, remark, logo, is_book,is_full, is_dis,address,begin_time,end_time,marks,dis_content, longitude, latitude, add_date,update_date,order_num,of_area_id,online,is_today,is_weekly,close_time from shop where of_user_id=?";
 
     // 根椐用户ID查询店铺
     private final String QUERY_SHOP_USERID_SIMPLE = "select shop_id, of_user_id, shop_name,online,is_today,is_weekly from shop where of_user_id=?";
 
     // 椐椐店铺ID店铺
-    private final String QUERY_SHOP_ID = "select shop_id, of_user_id, shop_name,type_name, link_man, telphone, open_time, cost, had, remark, logo, is_book,is_full, is_dis,address,begin_time,end_time,marks,dis_content, longitude, latitude, add_date,update_date,order_num,of_area_id,online,is_today,is_weekly from shop where shop_id=?";
+    private final String QUERY_SHOP_ID = "select shop_id, of_user_id, shop_name,type_name, link_man, telphone, open_time, cost, had, remark, logo, is_book,is_full, is_dis,address,begin_time,end_time,marks,dis_content, longitude, latitude, add_date,update_date,order_num,of_area_id,online,is_today,is_weekly,close_Time from shop where shop_id=?";
 
     /**
      * 引入持久层操作类
@@ -399,4 +403,37 @@ public class ShopServiceImpl implements ShopService
 		updateShop.setIsWeekly(shop.getIsWeekly());
 		baseDao.update(updateShop);
 	}
+
+
+	/**
+	 * 设置店铺自动关店时间
+	 */
+	public void setCloseTime(final Shop shop) {
+				//Shop shop = new Shop();
+				Calendar calendar = Calendar.getInstance();  
+			    calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(shop.getCloseTime().substring(0, 2))); // 控制时  
+			    calendar.set(Calendar.MINUTE, Integer.parseInt(shop.getCloseTime().substring(3, 5))); // 控制分  
+			    calendar.set(Calendar.SECOND, 0); // 控制秒  
+			    Date time = calendar.getTime(); //  
+			    try{
+			    	baseDao.update("update shop set close_time=? where shop_id=?",
+			    					new Object[]
+			    							{shop.getCloseTime(),shop.getShopId()});
+			    }catch(Exception e){
+			    	
+			    }
+			    Timer timer = new Timer(); 
+			    timer.schedule(new TimerTask() {  
+			        public void run() {  
+			            try{
+			            	baseDao.update(
+				                    "update shop set online=0 where shop_id=?",
+				                    new Object[]
+				                    {shop.getShopId()});
+			            }catch (Exception e){
+			            	
+			            }
+			        }  
+			    }, time, 1000 * 60 * 60 * 24);// 24小时后继续执行  
+			} 
 }

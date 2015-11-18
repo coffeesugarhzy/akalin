@@ -226,7 +226,12 @@
 				</span>
 			</div>
 			<div class="submit fr">
-				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+				<!-- 前台显示店家状态，如果休息状态不允许下单 -->
+				<#if shop.online == 1>
+ 				<a href="javascript:toConfirm();">&nbsp;选好了</a>
+				<#else>
+				<p style="background-color: #FFF8DC;">店家休息中..</p>
+				</#if>
 			</div>
 	</div>
 	<div class="food-choice-list">
